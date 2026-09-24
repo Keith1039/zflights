@@ -5,3 +5,10 @@ frontend/node_modules/
 # React Router
 frontend/.react-router/
 frontend/build/
+
+#migrations dir
+migrations/
+
+#scripts
+update_migrations.sh
+start.sh
