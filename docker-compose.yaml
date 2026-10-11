@@ -34,6 +34,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
     depends_on:
       pgtestdb:
         condition: service_healthy
@@ -41,3 +43,5 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    ports:
+      - "5173:3000"
