@@ -12,4 +12,9 @@ body {
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
+  color: black;
+}
+
+:root {
+  --page-link-hover-color: #D3D3D3;
 }
