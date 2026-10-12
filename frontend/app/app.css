@@ -1,8 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: "sohne-var","SF Pro Display", sans-serif;
 }
 
 html,
@@ -16,5 +15,6 @@ body {
 }
 
 :root {
+  --home-page-gif-url: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHoxZWp6aXp1YWE2dDV0Y2puZWJ4b25scGh2ZXB5dm83ZWk3bXFqdiZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/WMpVWABdeRkLnrqLkg/giphy.gif";
   --page-link-hover-color: #D3D3D3;
 }
