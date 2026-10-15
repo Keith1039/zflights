@@ -2,7 +2,7 @@ import type {LinkData} from "~/components/navbar/Navbar";
 
 export default function PageLink(data: LinkData) {
     return (
-        <a href={data.href} className="flex w-full h-full justify-center items-center hover:bg-(--page-link-hover-color) text-lg font-bold">
+        <a href={data.href} className="h-full items-center content-center text-lg font-bold m-6">
             {data.text}
         </a>
     )
