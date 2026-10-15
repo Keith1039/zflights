@@ -12,8 +12,8 @@ export default function Navbar({links}: {links: LinkData[]}) {
     // link section for website pages and links
     // icon section for the user account icon
     return (
-        <div className="flex w-full h-[10dvh] min-h-20 justify-center items-center border-solid border bg-transparent">
-            <div className="flex items-center min-w-9/10 h-8/10 bg-transparent">
+        <div className="flex w-full h-[10dvh] min-h-20 justify-center items-center border-solid border-b bg-transparent absolute top-0 left-0">
+            <div className="flex items-center min-w-9/10 h-8/10">
                 <div className="flex justify-center min-w-1/4 h-full bg-red-50">
                     <Logo/>
                 </div>

@@ -53,8 +53,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
             fade={0}
             opacity={1}
             seed={0}
-            className="min-h-dvh">
-          </Threads>
+            className="min-h-dvh"/>
+          <div></div>
           {children}
           <ScrollRestoration />
           <Scripts />

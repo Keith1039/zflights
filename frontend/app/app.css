@@ -16,12 +16,12 @@ body {
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
-  color: black;
+  color: white;
 }
 
 :root {
-  --home-page-gif-url: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHoxZWp6aXp1YWE2dDV0Y2puZWJ4b25scGh2ZXB5dm83ZWk3bXFqdiZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/WMpVWABdeRkLnrqLkg/giphy.gif";
   --page-link-hover-color: #D3D3D3;
+  --navbar-hover-color: #FFFFFF;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
