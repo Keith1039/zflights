@@ -9,6 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import Threads from "~/components/Threads";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -32,10 +33,32 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
-        {children}
-        <ScrollRestoration />
-        <Scripts />
+      <body className="h-full w-full">
+        <div className="w-full relative bg-black">
+          <Threads
+            color="#ffffff"
+            lineCount={90}
+            thickness={0.6}
+            softness={1.3}
+            amplitude={1.7}
+            distance={0.4}
+            waves={1.05}
+            speed={0.6}
+            split={0.04}
+            fray={0.5}
+            angle={0}
+            taper={0.85}
+            brightness={1.4}
+            parting={0}
+            fade={0}
+            opacity={1}
+            seed={0}
+            className="min-h-dvh">
+          </Threads>
+          {children}
+          <ScrollRestoration />
+          <Scripts />
+        </div>
       </body>
     </html>
   );
