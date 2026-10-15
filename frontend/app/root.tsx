@@ -34,7 +34,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="h-full w-full">
-        <div className="w-full relative bg-black">
+        <div className="w-full bg-black absolute top-0 left-0 z-10">
           <Threads
             color="#ffffff"
             lineCount={90}
@@ -54,7 +54,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
             opacity={1}
             seed={0}
             className="min-h-dvh"/>
-          <div></div>
+        </div>
+        <div>
           {children}
           <ScrollRestoration />
           <Scripts />
