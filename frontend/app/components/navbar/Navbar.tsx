@@ -21,7 +21,9 @@ export default function Navbar({authed, links}: {authed: boolean, links: LinkDat
         <div className="flex w-full h-[10dvh] min-h-20 justify-center items-center bg-transparent z-20">
             <div className="flex items-center min-w-9/10 h-8/10 transition duration-150 ease-in hover:bg-(--navbar-hover-color) rounded-md">
                 <div className="flex justify-center min-w-1/8 h-full bg-transparent">
-                    <Logo/>
+                    <a href={authed ? "/loggedin" : "/"}>
+                        <Logo/>
+                    </a>
                 </div>
                 <div className="flex items-center justify-start min-w-1/2 w-8/10 h-full" >
                     {links.map((link) => (
@@ -37,9 +39,7 @@ export default function Navbar({authed, links}: {authed: boolean, links: LinkDat
                     </div>
                 </div>
                 }
-                { authed && <div className="flex items-center justify-evenly min-w-1/20 h-full gap-1 bg-amber-800">
-                    <SignUpButton/>
-                    <LoginButton/>
+                { authed && <div className="flex items-center justify-evenly min-w-1/20 h-full bg-amber-800 mr-2">
                 </div>
                 }
             </div>

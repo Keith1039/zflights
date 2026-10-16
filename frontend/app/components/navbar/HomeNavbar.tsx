@@ -2,16 +2,16 @@ import Navbar, {type LinkData} from "~/components/navbar/Navbar";
 
 const defaultLinks: LinkData[] = [
     {
-        text: "map",
-        href: "/map"
+        text: "Home",
+        href: "/"
     },
     {
-        text: "deals",
-        href: "/deals"
+        text: "About Us",
+        href: "/about"
     },
     {
-        text: "settings",
-        href: "/settings"
+        text: "Contact Us",
+        href: "/contact"
     }
 ]
 
