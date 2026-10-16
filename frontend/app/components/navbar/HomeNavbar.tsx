@@ -16,5 +16,5 @@ const defaultLinks: LinkData[] = [
 ]
 
 export default function HomeNavbar() {
-    return <Navbar links={defaultLinks}/>;
+    return <Navbar authed={false} links={defaultLinks}/>;
 }

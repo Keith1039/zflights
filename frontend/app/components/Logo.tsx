@@ -1,4 +1,4 @@
 
 export default function Logo(){
-    return <img src="/public/logo.svg" alt="Logo" className="h-full" />
+    return <img src="/logo.svg" alt="Logo" className="h-full" />
 }
