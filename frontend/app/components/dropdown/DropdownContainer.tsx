@@ -12,7 +12,7 @@ export default function DropdownContainer({ links, children }: { links: Dropdown
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
     return (
-        <div className="flex flex-col relative"
+        <div className="flex flex-col relative w-full h-full"
             onClick={(e) => {
             e.preventDefault();
             setIsOpen(!isOpen);

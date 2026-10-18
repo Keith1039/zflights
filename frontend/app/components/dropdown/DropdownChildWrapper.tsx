@@ -3,7 +3,7 @@ import React from "react";
 
 export default function DropdownChildWrapper({ isOpen, children }: { isOpen: boolean, children: React.ReactNode}) {
     return (
-        <div className="flex flex-row w-full h-full z-20">
+        <div className="flex flex-row w-full h-full justify-center items-center z-20">
             {children}
             {!isOpen && <ChevronDown/>}
             {isOpen && <ChevronUp/>}

@@ -10,6 +10,13 @@ const accountIconLinks: DropdownLinkProps[] = [
             //do logout
             redirect("/")
         }
+    },
+    {
+        caption: "Log Out",
+        action: () => {
+            //do logout
+            redirect("/")
+        }
     }
 ]
 export default function AccountIconDropdown() {
