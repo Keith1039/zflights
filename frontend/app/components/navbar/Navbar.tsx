@@ -21,7 +21,7 @@ export default function Navbar({authed, links}: {authed: boolean, links: LinkDat
     return (
         <div className="flex w-full h-[10dvh] min-h-20 justify-center items-center bg-transparent z-20">
             <div className="flex items-center min-w-9/10 h-8/10 transition duration-150 ease-in hover:bg-(--navbar-hover-color) rounded-md">
-                <a href={authed ? "/loggedin" : "/"} className="flex justify-center min-w-1/8 h-full bg-transparent transition duration-150 ease-in hover:border">
+                <a href={authed ? "/loggedin" : "/"} className="flex justify-center min-w-1/8 h-full bg-transparent rounded-md transition duration-150 ease-in hover:border">
                     <Logo/>
                 </a>
                 <div className="flex items-center justify-start min-w-1/2 w-8/10 h-full" >
