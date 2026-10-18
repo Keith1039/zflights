@@ -38,7 +38,7 @@ export default function Navbar({authed, links}: {authed: boolean, links: LinkDat
                     </div>
                 </div>
                 }
-                { authed && <div className="flex items-center justify-evenly min-w-1/18 h-full bg-amber-800 mr-2">
+                { authed && <div className="flex items-center justify-evenly min-w-1/18 h-full mr-2">
                     <AccountIconDropdown/>
                 </div>
                 }

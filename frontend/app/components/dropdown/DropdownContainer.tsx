@@ -1,6 +1,5 @@
 import React from "react";
 import DropdownSection from "~/components/dropdown/DropdownSection";
-import type {LinkData} from "~/components/navbar/Navbar";
 import DropdownChildWrapper from "~/components/dropdown/DropdownChildWrapper";
 
 export type DropdownLinkProps = {
@@ -12,7 +11,8 @@ export default function DropdownContainer({ links, children }: { links: Dropdown
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
     return (
-        <div className="flex flex-col relative w-full h-full"
+        <div className="flex flex-col relative w-full h-full bg-transparent transition duration-150 ease-in hover:border"
+             onMouseLeave={() => setIsOpen(false)}
             onClick={(e) => {
             e.preventDefault();
             setIsOpen(!isOpen);
