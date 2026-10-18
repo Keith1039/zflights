@@ -29,7 +29,7 @@ export default function Navbar({authed, links}: {authed: boolean, links: LinkDat
                         <PageLink key={link.href} text={link.text} href={link.href}></PageLink>
                     ))}
                 </div>
-                { !authed && <div className="flex items-center justify-evenly min-w-1/8 max-w-1/8 h-full gap-2 mr-2">
+                { !authed && <div className="flex items-center justify-evenly min-w-1/8 max-w-1/8 lg:min-w-1/9 lg:max-w-1/9 h-full gap-2 mr-2">
                     <div className="h-full w-1/2 content-center">
                         <SignUpButton/>
                     </div>
