@@ -7,8 +7,8 @@ export default function (){
     }
     return (
         <Suspense fallback={<div className="text-lg">Loading...</div>}>
-            <div className="flex grow min-h-0 z-20">
-                <div className="w-full h-full absolute">
+            <div className="grow min-h-0 z-20">
+                <div className="w-full h-17/20 absolute">
                     <Map/>
                 </div>
             </div>
