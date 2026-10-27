@@ -1,4 +1,5 @@
 import type {Deal} from "~/models/Deal";
+import dayjs from "dayjs";
 
 const round = (num: number): number => Math.round(num * 100) / 100
 const durationConverter = (duration: number): string => {
@@ -7,13 +8,21 @@ const durationConverter = (duration: number): string => {
     const minutes = duration
     return `${hours}hr, ${minutes}min`
 }
+const dateConverter = (date: string): string => {
+    const formatString = "ddd, MMM DD"
+    return dayjs(date).format(formatString)
+}
+
 export default function DestinationCard({deal}: {deal: Deal}) {
     const hasDiscount = deal.discount_percentage !== 0
     const realDiscount = round(1 - (deal.discount_percentage / 100))
-    const originalPrice = hasDiscount ? 0 : round(deal.price / realDiscount);
+    const originalPrice = hasDiscount ? round(deal.price / realDiscount) : 0;
     const flightDuration = durationConverter(deal.duration)
+
+    const outboundDate = dateConverter(deal.outbound_date)
+    const returnDate = dateConverter(deal.return_date)
     return (
-        <a href="#" className="">
+        <a href={deal.flight_link} className="transition duration-150 ease-in hover:opacity-50">
             <div className="flex flex-col h-53 w-79.5 bg-gray-600 rounded-md">
                 <div className="h-8/10 w-full">
                     <div className="h-full w-full">
@@ -29,7 +38,7 @@ export default function DestinationCard({deal}: {deal: Deal}) {
                 </div>
                 <div className="h-full w-full">
                     <div className="flex text-white flex-row justify-evenly h-1/2 w-full">
-                        <div className="text-xs"> Start Date - End Date</div>
+                        <div className="text-xs"> {outboundDate} - {returnDate}</div>
                         {hasDiscount && <div className="text-xs line-through"> CAD${originalPrice}</div>}
                         {hasDiscount  && <div className="text-xs"> CAD${deal.price}</div>}
                         {!hasDiscount && <div className="text-xs">CAD${deal.price}</div>}
