@@ -1,5 +1,45 @@
 import {MapContainer, TileLayer, Marker, Popup} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import type {Deal} from "~/models/Deal";
+
+export const deals: Deal[] = [
+    {
+        name: "Venice",
+        country: "Italy",
+        lat: 45.438759,
+        lng: 12.3155,
+        thumbnail: "",
+        outbound_date: "",
+        return_date: "",
+        price: 0,
+        discount_percentage: 0,
+        flight_link: ""
+    },
+    {
+        name: "Rome",
+        country: "Italy",
+        lat: 41.9028,
+        lng: 12.4964,
+        thumbnail: "",
+        outbound_date: "",
+        return_date: "",
+        price: 0,
+        discount_percentage: 0,
+        flight_link: ""
+    },
+    {
+        name: "Tokyo",
+        country: "Japan",
+        lat: 35.6762,
+        lng: 139.6503,
+        thumbnail: "",
+        outbound_date: "",
+        return_date: "",
+        price: 0,
+        discount_percentage: 0,
+        flight_link: ""
+    },
+]
 
 export default function WorldMap(){
     return (
