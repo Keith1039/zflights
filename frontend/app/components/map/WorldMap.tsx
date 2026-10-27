@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css";
 
 export default function WorldMap(){
     return (
-        <MapContainer style={{height: "100%"}} center={[51.505, -0.09]} zoom={13} scrollWheelZoom={true}>
+        <MapContainer style={{height: "100%"}} center={[20, -20]} zoom={2.5} scrollWheelZoom={true}>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
