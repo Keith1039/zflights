@@ -7,6 +7,10 @@ export type Deal = {
     outbound_date: string,
     return_date: string,
     price: number,
+    stops: number,
+    duration: number,
     discount_percentage: number,
     flight_link: string,
+    departure_airport_code: string,
+    arrival_airport_code: string,
 }

@@ -2,66 +2,32 @@ import {lazy, Suspense} from "react";
 import type {Deal} from "~/models/Deal";
 import type {DealGroup} from "~/models/DealGroup";
 
-export const deals: Deal[] = [
-    {
-        name: "Venice",
-        country: "Italy",
-        lat: 45.438759,
-        lng: 12.3155,
-        thumbnail: "",
-        outbound_date: "",
-        return_date: "",
-        price: 0,
-        discount_percentage: 0,
-        flight_link: ""
-    },
-    {
-        name: "Rome",
-        country: "Italy",
-        lat: 41.9028,
-        lng: 12.4964,
-        thumbnail: "",
-        outbound_date: "",
-        return_date: "",
-        price: 0,
-        discount_percentage: 0,
-        flight_link: ""
-    },
-    {
-        name: "Tokyo",
-        country: "Japan",
-        lat: 35.6762,
-        lng: 139.6503,
-        thumbnail: "",
-        outbound_date: "",
-        return_date: "",
-        price: 0,
-        discount_percentage: 0,
-        flight_link: ""
-    },
-]
-
-const dealsToDealGroups = (deals: Deal[]): DealGroup[] => {
-    const m: Map<string, DealGroup> = new Map();
-
+const dealsToDealGroups = (deals: Deal[]): [Map<string, DealGroup>, Map<string, DealGroup>] => {
+    const countryMap: Map<string, DealGroup> = new Map();
+    const cityMap: Map<string, DealGroup> = new Map();
     // step 1: group deals by country
     for (const deal of deals) {
-        let group = m.get(deal.country)
+        const group = countryMap.get(deal.country)
         if (!group) {
             const newArr = new Array<Deal>()
             newArr.push(deal)
-            m.set(deal.country, {country: deal.country, deals: newArr} as DealGroup);
+            countryMap.set(deal.country, {name: deal.country, deals: newArr} as DealGroup);
         } else {
             group.deals.push(deal)
         }
+
+        const cityGroup = countryMap.get(deal.name)
+        if (!cityGroup) {
+            const newArr = new Array<Deal>()
+            newArr.push(deal)
+            cityMap.set(deal.name, {name: deal.name, deals: newArr} as DealGroup);
+        } else {
+            cityGroup.deals.push(deal)
+        }
+
     }
 
-    const groupArray: DealGroup[] = []
-    // step 2: export map as array
-    for (const [, group] of m) {
-        groupArray.push(group)
-    }
-    return groupArray;
+    return [countryMap, cityMap];
 }
 
 const WorldMap = lazy(() => import("~/components/map/WorldMap"))

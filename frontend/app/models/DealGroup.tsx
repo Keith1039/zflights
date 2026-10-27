@@ -1,6 +1,6 @@
 import type {Deal} from "~/models/Deal";
 
 export type DealGroup = {
-    country : string,
+    name : string,
     deals: Array<Deal>,
 }
