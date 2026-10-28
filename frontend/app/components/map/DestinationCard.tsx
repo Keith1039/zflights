@@ -16,7 +16,7 @@ export default function DestinationCard({deal}: {deal: Deal}) {
     const hasDiscount = deal.discount_percentage !== 0
     const realDiscount = round(1 - (deal.discount_percentage / 100))
     const originalPrice = hasDiscount ? round(deal.price / realDiscount) : 0;
-    const flightDuration = durationConverter(deal.duration)
+    const flightDuration = durationConverter(deal.flight_duration)
 
     const outboundDate = dateConverter(deal.outbound_date)
     const returnDate = dateConverter(deal.return_date)
