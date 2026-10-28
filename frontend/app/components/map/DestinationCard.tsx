@@ -43,7 +43,7 @@ export default function DestinationCard({deal}: {deal: Deal}) {
                         {!hasDiscount && <div className="text-xs">CAD${deal.price}</div>}
                     </div>
                     <div className="flex text-white flex-row justify-evenly h-1/2 w-full">
-                        <div className="text-xs"> {deal.stops} Stops</div>
+                        <div className="text-xs"> {deal.stops} {deal.stops === 1 ? "Stop" : "Stops"}</div>
                         <div className="text-xs"> {flightDuration}</div>
                         <div className="text-xs"> {deal.departure_airport_code} → {deal.arrival_airport_code}</div>
                     </div>

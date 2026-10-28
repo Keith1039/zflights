@@ -2,7 +2,7 @@ import {lazy, Suspense} from "react";
 import type {Deal} from "~/models/Deal";
 import type {DealGroup} from "~/models/DealGroup";
 import type {MarkerLocation} from "~/models/MarkerLocation";
-import type {Route} from "../../.react-router/types/app/routes/+types/_loggedin.maps"
+import type {Route} from "../../.react-router/types/app/routes/+types/_loggedin.map"
 import api from "~/axios/api"
 import {useLoaderData} from "react-router";
 
