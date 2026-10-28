@@ -2,6 +2,9 @@ import {MapContainer, TileLayer, Marker, Popup} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import type {Deal} from "~/models/Deal";
 import DestinationCard from "~/components/map/DestinationCard";
+import type {MarkerLocation} from "~/models/MarkerLocation";
+import type {DealGroup} from "~/models/DealGroup";
+import CustomPopup from "~/components/map/CustomPopup";
 export const deals: Deal[] = [
     {
         name: "Venice",
@@ -53,8 +56,12 @@ export const deals: Deal[] = [
     },
 ]
 
+type MarkerData = {
+    clusterMap: Map<string, Map<string, MarkerLocation>>
+    dealMap: Map<string, DealGroup>
+}
 
-export default function WorldMap(){
+export default function WorldMap({clusterMap, dealMap}: MarkerData){
     return (
         <MapContainer style={{height: "100%"}} center={[20, -20]} zoom={2.5} scrollWheelZoom={true}>
             <TileLayer
@@ -63,15 +70,7 @@ export default function WorldMap(){
             />
             <Marker position={[51.505, -0.09]}>
                 <Popup minWidth={345} maxHeight={300}>
-                    <div>
-                        <ul className="border-solid border-2 rounded-md content-center">
-                            {deals.map((deal) => (
-                                <li className="w-full border-solid border-b font-bold text-center cursor-pointer">
-                                    <DestinationCard deal={deal} />
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    <CustomPopup deals={deals}/>
                 </Popup>
             </Marker>
         </MapContainer>
