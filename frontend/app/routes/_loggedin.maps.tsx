@@ -1,22 +1,27 @@
 import {lazy, Suspense} from "react";
 import type {Deal} from "~/models/Deal";
 import type {DealGroup} from "~/models/DealGroup";
+import type {MarkerLocation} from "~/models/MarkerLocation";
 
-const dealsToDealGroups = (deals: Deal[]): [Map<string, DealGroup>, Map<string, DealGroup>] => {
-    const countryMap: Map<string, DealGroup> = new Map();
+const dealsToDealGroups = (deals: Deal[]): [Map<string, Map<string, MarkerLocation>>, Map<string, DealGroup>] => {
+    const countryMap: Map<string, Map<string, MarkerLocation>> = new Map();
     const cityMap: Map<string, DealGroup> = new Map();
     // step 1: group deals by country
     for (const deal of deals) {
         const group = countryMap.get(deal.country)
         if (!group) {
-            const newArr = new Array<Deal>()
-            newArr.push(deal)
-            countryMap.set(deal.country, {name: deal.country, deals: newArr} as DealGroup);
+            const m = new Map<string, MarkerLocation>();
+            m.set(deal.name, {name: deal.name, lat: deal.lat, lng: deal.lng} as MarkerLocation);
+            countryMap.set(deal.country, m);
+
         } else {
-            group.deals.push(deal)
+            const isIn = group.get(deal.name) !== undefined;
+            if (!isIn) {
+                group.set(deal.name, {name: deal.name, lat: deal.lat, lng: deal.lng} as MarkerLocation)
+            }
         }
 
-        const cityGroup = countryMap.get(deal.name)
+        const cityGroup = cityMap.get(deal.name)
         if (!cityGroup) {
             const newArr = new Array<Deal>()
             newArr.push(deal)
