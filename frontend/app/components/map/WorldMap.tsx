@@ -4,6 +4,8 @@ import type {MarkerLocation} from "~/models/MarkerLocation";
 import type {DealGroup} from "~/models/DealGroup";
 import CustomPopup from "~/components/map/CustomPopup";
 import MarkerClusterGroup from "react-leaflet-cluster";
+import 'react-leaflet-cluster/dist/assets/MarkerCluster.css'
+import 'react-leaflet-cluster/dist/assets/MarkerCluster.Default.css'
 
 type MarkerData = {
     clusterMap: Map<string, Map<string, MarkerLocation>>
@@ -18,7 +20,9 @@ export default function WorldMap({clusterMap, dealMap}: MarkerData){
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             {[...clusterMap].map(([, cityMarkers]) => (
-                <MarkerClusterGroup>
+                <MarkerClusterGroup
+                    chunkedLoading
+                >
                     {[...cityMarkers].map(([city, markerData]) => (
                         <Marker position={{lat: markerData.lat, lng: markerData.lng}}>
                             <Popup>

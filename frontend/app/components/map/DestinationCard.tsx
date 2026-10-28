@@ -3,9 +3,8 @@ import dayjs from "dayjs";
 
 const round = (num: number): number => Math.round(num * 100) / 100
 const durationConverter = (duration: number): string => {
-    const hours = duration % 60
-    duration = duration - hours * 60
-    const minutes = duration
+    const hours = duration % 6
+    const minutes = duration - hours * 60
     return `${hours}hr, ${minutes}min`
 }
 const dateConverter = (date: string): string => {
