@@ -44,7 +44,6 @@ const dealsToDealGroups = (deals: Deal[]): [Map<string, Map<string, MarkerLocati
         }
 
     }
-    console.log(countryMap)
     return [countryMap, cityMap];
 }
 

@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 const round = (num: number): number => Math.round(num * 100) / 100
 const durationConverter = (duration: number): string => {
-    const hours = duration % 6
+    const hours = Math.floor(duration / 60)
     const minutes = duration - hours * 60
     return `${hours}hr, ${minutes}min`
 }
@@ -21,7 +21,7 @@ export default function DestinationCard({deal}: {deal: Deal}) {
     const outboundDate = dateConverter(deal.outbound_date)
     const returnDate = dateConverter(deal.return_date)
     return (
-        <a href={deal.flight_link} className="transition duration-150 ease-in hover:opacity-50">
+        <a href={deal.flight_link} target="_blank" className="transition duration-150 ease-in hover:opacity-50">
             <div className="flex flex-col h-53 w-79.5 bg-gray-600 rounded-md">
                 <div className="h-8/10 w-full">
                     <div className="h-full w-full">
