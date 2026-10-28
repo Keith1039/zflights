@@ -1,6 +1,5 @@
 import type {Deal} from "~/models/Deal";
 import DestinationCard from "~/components/map/DestinationCard";
-import {deals} from "~/components/map/WorldMap";
 
 export default function CustomPopup({deals}: {deals: Deal[]}) {
     return (
