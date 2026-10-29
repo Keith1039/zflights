@@ -6,7 +6,7 @@ const defaultLinks: LinkData[] = [
         href: "/map"
     },
     {
-        text: "deals",
+        text: "available trips",
         href: "/deals"
     },
     {

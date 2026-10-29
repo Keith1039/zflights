@@ -1,26 +1,20 @@
-import {links} from "~/root";
 import AccountIcon from "~/components/AccountIcon";
 import DropdownContainer, {type DropdownLinkProps} from "~/components/dropdown/DropdownContainer";
-import {redirect} from "react-router";
+import {useNavigate} from "react-router";
 
-const accountIconLinks: DropdownLinkProps[] = [
-    {
-        caption: "Log Out",
-        action: () => {
-            //do logout
-            redirect("/")
-        }
-    },
-    {
-        caption: "Log Out",
-        action: () => {
-            //do logout
-            redirect("/")
-        }
-    }
-]
+
 export default function AccountIconDropdown() {
+    const navigate = useNavigate();
 
+    const accountIconLinks: DropdownLinkProps[] = [
+        {
+            caption: "Log Out",
+            action: () => {
+                //do logout
+                return navigate("/");
+            }
+        }
+    ]
     return (
         <DropdownContainer links={accountIconLinks}>
             <AccountIcon/>
