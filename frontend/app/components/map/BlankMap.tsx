@@ -1,8 +1,8 @@
 import L from "leaflet";
-import {MapContainer, Marker, TileLayer} from "react-leaflet";
+import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import type {DealGroup} from "~/models/DealGroup";
-import countryGeoMap from "~/utils/utils";
+import {countryGeoMap, countryCodeMap} from "~/utils/utils";
 
 const maxBounds = L.latLngBounds(
     L.latLng(-80, -180),
@@ -27,7 +27,9 @@ export default function WorldMap({countryGroups}: {countryGroups: Map<string, De
                 <Marker
                     position={{lat: countryGeoMap.get(country)!!.lat, lng: countryGeoMap.get(country)!!.lng}}
                 >
-
+                    <Popup>
+                        {`${country} `}
+                    </Popup>
                 </Marker>
             ))
 
