@@ -5,7 +5,7 @@ frontend/node_modules/
 # React Router
 frontend/.react-router/
 frontend/build/
-frontend/launch_db.sh
+frontend/launch.sh
 frontend/.idea
 
 #migrations dir
