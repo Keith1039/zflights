@@ -22,7 +22,7 @@ export default function DestinationCard({deal}: {deal: Deal}) {
     const returnDate = dateConverter(deal.return_date)
     return (
         <a href={deal.flight_link} target="_blank" className="transition duration-150 ease-in hover:opacity-50">
-            <div className="flex flex-col h-53 w-79.5 bg-gray-600 rounded-md">
+            <div className="flex flex-col h-53 w-79.5 bg-gray-600 rounded-b-md">
                 <div className="h-8/10 w-full">
                     <div className="h-full w-full">
                         <img src={deal.thumbnail} className="h-full w-full opacity-90" alt="HTML 5 ICON"/>
