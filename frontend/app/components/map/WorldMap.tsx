@@ -6,15 +6,27 @@ import CustomPopup from "~/components/map/CustomPopup";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import 'react-leaflet-cluster/dist/assets/MarkerCluster.css'
 import 'react-leaflet-cluster/dist/assets/MarkerCluster.Default.css'
+import L from "leaflet";
 
 type MarkerData = {
     clusterMap: Map<string, Map<string, MarkerLocation>>
     dealMap: Map<string, DealGroup>
 }
 
+const maxBounds = L.latLngBounds(
+    L.latLng(-90, 90),
+    L.latLng(90, -90)
+);
+
 export default function WorldMap({clusterMap, dealMap}: MarkerData){
     return (
-        <MapContainer style={{height: "100%"}} center={[20, -20]} zoom={2.5} scrollWheelZoom={true}>
+        <MapContainer
+            style={{height: "100%"}}
+            center={[20, -20]}
+            zoom={2.5}
+            maxBounds={maxBounds}
+            maxBoundsViscosity={1.0}
+            scrollWheelZoom={true}>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
