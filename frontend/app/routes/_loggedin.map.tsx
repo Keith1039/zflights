@@ -49,12 +49,13 @@ const dealsToDealGroups = (deals: Deal[]): [Map<string, Map<string, MarkerLocati
 
 const WorldMap = lazy(() => import("~/components/map/WorldMap"))
 export default function (){
+    const deals = useLoaderData<Deal[]>()
+    const [clusterMap, dealMap] = dealsToDealGroups(deals);
+
     if (typeof window === 'undefined') {
         return <div className="text-lg">Loading...</div>
     }
 
-    const deals = useLoaderData<Deal[]>()
-    const [clusterMap, dealMap] = dealsToDealGroups(deals);
     return (
         <Suspense fallback={<div className="text-lg">Loading...</div>}>
             <div className="grow min-h-0 z-20">
