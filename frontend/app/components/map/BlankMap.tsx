@@ -1,13 +1,15 @@
 import L from "leaflet";
-import {MapContainer, TileLayer} from "react-leaflet";
+import {MapContainer, Marker, TileLayer} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import type {DealGroup} from "~/models/DealGroup";
+import countryGeoMap from "~/utils/utils";
 
 const maxBounds = L.latLngBounds(
     L.latLng(-80, -180),
     L.latLng(80, 180)
 );
 
-export default function WorldMap(){
+export default function WorldMap({countryGroups}: {countryGroups: Map<string, DealGroup>}){
     return (
         <MapContainer
             style={{height: "100%"}}
@@ -21,6 +23,15 @@ export default function WorldMap(){
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
+            {[...countryGroups].map(([country, dealGroup]) => (
+                <Marker
+                    position={{lat: countryGeoMap.get(country)!!.lat, lng: countryGeoMap.get(country)!!.lng}}
+                >
+
+                </Marker>
+            ))
+
+            }
         </MapContainer>
     )
 }

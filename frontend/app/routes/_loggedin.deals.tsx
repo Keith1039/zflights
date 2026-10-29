@@ -1,12 +1,12 @@
 import type {Route} from "../../.react-router/types/app/routes/+types/_loggedin.deals";
 import type {Deal} from "~/models/Deal";
 import api from "~/axios/api";
-import type {MarkerLocation} from "~/models/MarkerLocation";
 import type {DealGroup} from "~/models/DealGroup";
 import {lazy, Suspense, useState} from "react";
 import {useLoaderData} from "react-router";
 import InfiniteScroll from "react-infinite-scroll-component";
 import DestinationCard from "~/components/map/DestinationCard";
+
 
 const per_page = 2;
 export async function clientLoader({}: Route.ClientLoaderArgs): Promise<Deal[]> {
@@ -56,6 +56,7 @@ export default function (){
         return <div className="text-lg">Loading...</div>
     }
 
+    const countryGroups = dealsToDealGroups(deals);
     return (
         <Suspense fallback={<div className="text-lg">Loading...</div>}>
             <div className="grow min-h-0 z-20">
@@ -74,7 +75,7 @@ export default function (){
 
                 </div>
                 <div className="w-full h-17/20 absolute">
-                    <WorldMap/>
+                    <WorldMap countryGroups={countryGroups}/>
                 </div>
             </div>
         </Suspense>
