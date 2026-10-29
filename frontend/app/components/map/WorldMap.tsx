@@ -14,16 +14,17 @@ type MarkerData = {
 }
 
 const maxBounds = L.latLngBounds(
-    L.latLng(-90, 90),
-    L.latLng(90, -90)
+    L.latLng(-80, -180),
+    L.latLng(80, 180)
 );
 
 export default function WorldMap({clusterMap, dealMap}: MarkerData){
     return (
         <MapContainer
             style={{height: "100%"}}
-            center={[20, -20]}
-            zoom={2.5}
+            center={[20, 0]}
+            zoom={2}
+            minZoom={2}
             maxBounds={maxBounds}
             maxBoundsViscosity={1.0}
             scrollWheelZoom={true}>
