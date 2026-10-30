@@ -10,9 +10,9 @@ const maxBounds = L.latLngBounds(
     L.latLng(80, 180)
 );
 
-export default function WorldMap({allDeals, setCountry}: {allDeals: Deal[], setCountry: (country: string) => void}){
+export default function WorldMap({allDeals, setCountry, doneLoading}: {allDeals: Deal[], setCountry: (country: string) => void, doneLoading: () => void}){
     const allCountries: Map<string, Boolean> = new Map();
-
+    doneLoading()
     allDeals.forEach(deal => {
         if (!allCountries.get(deal.country)){
             allCountries.set(deal.country, true)

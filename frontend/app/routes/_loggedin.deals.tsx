@@ -1,7 +1,6 @@
 import type {Route} from "../../.react-router/types/app/routes/+types/_loggedin.deals";
 import type {Deal} from "~/models/Deal";
 import api from "~/axios/api";
-import type {DealGroup} from "~/models/DealGroup";
 import {lazy, Suspense, useEffect, useState} from "react";
 import {useLoaderData} from "react-router";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -19,23 +18,6 @@ export function HydrateFallback() {
     return <div>Loading...</div>;
 }
 
-const dealsToDealGroups = (deals: Deal[]): Map<string, DealGroup> => {
-    const countryMap: Map<string, DealGroup> = new Map();
-    // step 1: group deals by country
-    for (const deal of deals) {
-        const countryGroup = countryMap.get(deal.country)
-        if (!countryGroup) {
-            const newArr = new Array<Deal>()
-            newArr.push(deal)
-            countryMap.set(deal.country, {name: deal.country, deals: newArr} as DealGroup);
-        } else {
-            countryGroup.deals.push(deal)
-        }
-
-    }
-    return countryMap
-}
-
 
 const WorldMap = lazy(() => import("~/components/map/BlankMap"))
 
@@ -46,7 +28,7 @@ export default function (){
     const [currentDeals, setCurrentDeals] = useState<Deal[]>(allDeals)
     const [hasMore, setHasMore] = useState<boolean>(true)
     const [open, setOpen] = useState<boolean>(true)
-
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
     const setFocusCountry = (targetCountry: string) => {
         if (country === targetCountry) {
@@ -56,17 +38,20 @@ export default function (){
         }
     }
 
-    useEffect(() => {
-        if (country === null) {
-            // full reset
-            setOpen(false)
-            setHasMore(true)
-            setCurrentDeals(allDeals)
-        } else {
-            setOpen(true)
-            setHasMore(true)
-            setCurrentDeals(allDeals.filter(deal => deal.country === country))
-            fetchSpecificMore(country)
+    useEffect(() =>
+    {
+        //mitigate double take from lazy loading
+        if(!isLoading) {
+            if (country === null) {
+                setOpen(false)
+                setHasMore(true)
+                setCurrentDeals(allDeals)
+            } else {
+                setOpen(true)
+                setHasMore(true)
+                setCurrentDeals(allDeals.filter(deal => deal.country === country))
+                fetchSpecificMore(country)
+            }
         }
     }, [country])
 
@@ -136,7 +121,10 @@ export default function (){
                 </div>
                 }
                 <div className="w-full h-17/20 absolute">
-                    <WorldMap allDeals={allDeals} setCountry={setFocusCountry}/>
+                    <WorldMap
+                        allDeals={allDeals}
+                        setCountry={setFocusCountry}
+                        doneLoading={() => {setIsLoading(false)}}/>
                 </div>
             </div>
         </Suspense>
