@@ -3,13 +3,21 @@ import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import type {DealGroup} from "~/models/DealGroup";
 import {countryGeoMap, countryCodeMap} from "~/utils/utils";
+import type {Deal} from "~/models/Deal";
 
 const maxBounds = L.latLngBounds(
     L.latLng(-80, -180),
     L.latLng(80, 180)
 );
 
-export default function WorldMap({countryGroups}: {countryGroups: Map<string, DealGroup>}){
+export default function WorldMap({allDeals, setCountry}: {allDeals: Deal[], setCountry: (country: string) => void}){
+    const allCountries: Map<string, Boolean> = new Map();
+
+    allDeals.forEach(deal => {
+        if (!allCountries.get(deal.country)){
+            allCountries.set(deal.country, true)
+        }
+    })
     return (
         <MapContainer
             style={{height: "100%"}}
@@ -23,12 +31,20 @@ export default function WorldMap({countryGroups}: {countryGroups: Map<string, De
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {[...countryGroups].map(([country, dealGroup]) => (
+            {[...allCountries].map(([country]) => (
                 <Marker
+                    eventHandlers={
+                        {
+                            click: (e) => {
+                                setCountry(country)
+                            }
+
+                        }
+                    }
                     position={{lat: countryGeoMap.get(country)!!.lat, lng: countryGeoMap.get(country)!!.lng}}
                 >
                     <Popup>
-                        {`${country} `}
+                        {country}
                     </Popup>
                 </Marker>
             ))
