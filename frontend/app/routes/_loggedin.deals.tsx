@@ -1,6 +1,7 @@
 import type {Route} from "../../.react-router/types/app/routes/+types/_loggedin.deals";
 import type {Deal} from "~/models/Deal";
 import api from "~/axios/api";
+import {X} from "lucide-react"
 import {lazy, Suspense, useEffect, useState} from "react";
 import {useLoaderData} from "react-router";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -100,6 +101,9 @@ export default function (){
         <Suspense fallback={<div className="text-lg">Loading...</div>}>
             <div className="grow min-h-0 z-20">
                 {open && <div className="absolute left-8/10 w-2/10 h-17/20 bg-gray-600 z-10000000 overflow-y-auto">
+                    <X
+                        className="cursor-pointer hover:opacity-50"
+                        onClick={() => setOpen(false)}/>
                     <InfiniteScroll
                         dataLength={allDeals.length}
                         next={fetchMore}
