@@ -1,5 +1,6 @@
 import type {Deal} from "~/models/Deal";
 import {dateConverter, durationConverter, round} from "~/utils/utils";
+import {Bookmark} from "lucide-react"
 
 export default function ListDestinationCard({deal}: {deal: Deal}) {
     const hasDiscount = deal.discount_percentage !== 0
@@ -10,22 +11,38 @@ export default function ListDestinationCard({deal}: {deal: Deal}) {
     const outboundDate = dateConverter(deal.outbound_date)
     const returnDate = dateConverter(deal.return_date)
     return (
-        <div className="flex flex-col w-full h-2/10 hover:opacity-75">
-            <div className="w-full h-8/10 bg-blue-400">
-                <div className="h-full w-full">
-                    <img src={deal.thumbnail} className="h-full w-full opacity-90" alt="HTML 5 ICON"/>
-                    <div className="flex flex-col relative max-h-4/10 top-7/7 items-center left-1/30 z-50">
-                        <div className="text-xl text-white font-bold self-start">{deal.name}</div>
-                        <div className="text-xs text-white self-start">{deal.country}</div>
+        <div className="w-full h-2/10">
+            <div className="w-full h-8/10">
+                <div className="h-full w-full relative">
+                    <a href={deal.flight_link} target="_blank" className="transition duration-150 ease-in hover:opacity-75">
+                        <img src={deal.thumbnail} className="h-full w-full opacity-90" alt="HTML 5 ICON"/>
+                    </a>
+                    <div className="flex flex-col absolute top-8/10 items-center left-1/30 z-50">
+                        <div className="text-2xl text-white font-bold self-start">{deal.name}</div>
+                        <div className="text-md text-white self-start">{deal.country}</div>
                     </div>
-                    {hasDiscount && <div className="flex flex-col w-full relative -top-13/10 z-50">
-                        <div className="text-xl text-white text-right font-bold m-2 pr-6 bg-green-600 rounded-b-md">{deal.discount_percentage}% off</div>
+                    {hasDiscount && <div className="flex flex-col w-full absolute top-0 z-50">
+                        <div className="text-xl text-white text-right font-bold pr-6 bg-green-600 rounded-b-md">{deal.discount_percentage}% off</div>
                     </div>}
+                    <div className="absolute top-26/30 left-27/30">
+                        <Bookmark
+                            className="cursor-pointer h-12/10 w-12/10 hover:opacity-75 hover:fill-black"
+                        />
+                    </div>
                 </div>
             </div>
-            <div className="w-full h-3/10 bg-green-600">
-                <div className="w-full h-1/2"> row 1</div>
-                <div className="w-full h-1/2"> row 2</div>
+            <div className="w-full h-3/10 bg-gray-400">
+                <div className="flex text-white flex-row justify-evenly h-1/2 w-full text-md">
+                    <div className="text-md"> {outboundDate} - {returnDate}</div>
+                    {hasDiscount && <div className="line-through"> CAD${originalPrice}</div>}
+                    {hasDiscount  && <div> CAD${deal.price}</div>}
+                    {!hasDiscount && <div>CAD${deal.price}</div>}
+                </div>
+                <div className="flex text-white flex-row justify-evenly h-1/2 w-full text-md">
+                    <div> {deal.stops} {deal.stops === 1 ? "Stop" : "Stops"}</div>
+                    <div> {flightDuration}</div>
+                    <div> {deal.departure_airport_code} → {deal.arrival_airport_code}</div>
+                </div>
             </div>
         </div>
     )
