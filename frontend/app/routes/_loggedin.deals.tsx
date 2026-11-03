@@ -101,8 +101,9 @@ export default function (){
     return (
         <Suspense fallback={<div className="text-lg">Loading...</div>}>
             <div className="grow min-h-0 z-20">
-                {open && <div className="absolute left-7/10 w-3/10 h-17/20 bg-gray-600 z-10000000 overflow-y-auto">
+                {open && <div className="absolute pl-2 left-7/10 w-3/10 h-17/20 z-10000000 overflow-y-auto bg-white rounded-md border-2 border-solid">
                     <X
+                        color="black"
                         className="cursor-pointer hover:opacity-50"
                         onClick={() => setOpen(false)}/>
                     <InfiniteScroll

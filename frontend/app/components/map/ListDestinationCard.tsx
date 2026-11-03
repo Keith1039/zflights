@@ -11,11 +11,11 @@ export default function ListDestinationCard({deal}: {deal: Deal}) {
     const outboundDate = dateConverter(deal.outbound_date)
     const returnDate = dateConverter(deal.return_date)
     return (
-        <div className="w-full h-2/10">
-            <div className="w-full h-8/10">
+        <div className="w-full min-h-0 h-2/10 max-h-2/10 mb-2">
+            <div className="w-full h-18/20">
                 <div className="h-full w-full relative">
-                    <a href={deal.flight_link} target="_blank" className="transition duration-150 ease-in hover:opacity-75">
-                        <img src={deal.thumbnail} className="h-full w-full opacity-90" alt="HTML 5 ICON"/>
+                    <a href={deal.flight_link} target="_blank" className="hover:opacity-85">
+                        <img src={deal.thumbnail} className="min-h-0 h-full w-full" alt="HTML 5 ICON"/>
                     </a>
                     <div className="flex flex-col absolute top-8/10 items-center left-1/30 z-50">
                         <div className="text-2xl text-white font-bold self-start">{deal.name}</div>
@@ -31,7 +31,7 @@ export default function ListDestinationCard({deal}: {deal: Deal}) {
                     </div>
                 </div>
             </div>
-            <div className="w-full h-3/10 bg-gray-400">
+            <div className="w-full h-2/20 bg-gray-400 border-solid border-2 rounded-b-md">
                 <div className="flex text-white flex-row justify-evenly h-1/2 w-full text-md">
                     <div className="text-md"> {outboundDate} - {returnDate}</div>
                     {hasDiscount && <div className="line-through"> CAD${originalPrice}</div>}
