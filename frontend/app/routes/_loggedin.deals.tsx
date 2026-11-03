@@ -6,6 +6,7 @@ import {lazy, Suspense, useEffect, useState} from "react";
 import {useLoaderData} from "react-router";
 import InfiniteScroll from "react-infinite-scroll-component";
 import DestinationCard from "~/components/map/DestinationCard";
+import ListDestinationCard from "~/components/map/ListDestinationCard";
 
 const per_page = 5;
 
@@ -112,7 +113,7 @@ export default function (){
                         endMessage={<p style={{ textAlign: 'center' }}>All items loaded.</p>}
                     >
                         {currentDeals.map(deal => (
-                            <DestinationCard deal={deal}/>
+                            <ListDestinationCard deal={deal}/>
                         ))}
                     </InfiniteScroll>
                 </div>}
