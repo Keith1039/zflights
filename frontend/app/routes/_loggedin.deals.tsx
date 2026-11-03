@@ -32,11 +32,13 @@ export default function (){
     const [open, setOpen] = useState<boolean>(true)
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
-    const setFocusCountry = (targetCountry: string) => {
+    const setFocusCountry = (targetCountry: string, onSet: () => void, onRemove: () => void) => {
         if (country === targetCountry) {
             setCountry(null)
+            onRemove()
         } else {
             setCountry(targetCountry)
+            onSet()
         }
     }
 
@@ -101,36 +103,18 @@ export default function (){
     return (
         <Suspense fallback={<div className="text-lg">Loading...</div>}>
             <div className="grow min-h-0 z-20">
-                {open && <div className="absolute pl-2 left-7/10 w-3/10 h-17/20 z-10000000 overflow-y-auto bg-white rounded-md border-2 border-solid">
-                    <X
-                        color="black"
-                        className="cursor-pointer hover:opacity-50"
-                        onClick={() => setOpen(false)}/>
-                    <InfiniteScroll
-                        dataLength={allDeals.length}
-                        next={fetchMore}
-                        hasMore={hasMore}
-                        loader={<p>Loading...</p>}
-                        endMessage={<p style={{ textAlign: 'center' }}>All items loaded.</p>}
-                    >
-                        {currentDeals.map(deal => (
-                            <ListDestinationCard deal={deal}/>
-                        ))}
-                    </InfiniteScroll>
-                </div>}
-                {!open && <div className="absolute left-29/30 w-1/30 h-1/10 z-10000000">
-                    <button
-                        className="w-full pt-1.5 pb-1.5 cursor-pointer rounded-md text-nowrap bg-blue-500 hover:bg-blue-700"
-                    onClick={() => {setOpen(true)}}>
-                        +
-                    </button>
-                </div>
-                }
                 <div className="w-full h-17/20 absolute">
                     <WorldMap
                         allDeals={allDeals}
                         setCountry={setFocusCountry}
-                        doneLoading={() => {setIsLoading(false)}}/>
+                        doneLoading={() => {
+                            setIsLoading(false);
+                        }}
+                        currentDeals={currentDeals}
+                        fetchMore={fetchMore}
+                        hasMore={hasMore}
+                        open={open}
+                        setOpen={setOpen}/>
                 </div>
             </div>
         </Suspense>
