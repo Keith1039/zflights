@@ -1,12 +1,8 @@
 import type {Route} from "../../.react-router/types/app/routes/+types/_loggedin.deals";
 import type {Deal} from "~/models/Deal";
 import api from "~/axios/api";
-import {X} from "lucide-react"
 import {lazy, Suspense, useEffect, useState} from "react";
 import {useLoaderData} from "react-router";
-import InfiniteScroll from "react-infinite-scroll-component";
-import DestinationCard from "~/components/map/DestinationCard";
-import ListDestinationCard from "~/components/map/ListDestinationCard";
 
 const per_page = 5;
 
