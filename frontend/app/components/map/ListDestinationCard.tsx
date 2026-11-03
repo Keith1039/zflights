@@ -14,8 +14,8 @@ export default function ListDestinationCard({deal}: {deal: Deal}) {
         <div className="w-full min-h-0 h-2/10 max-h-2/10 mb-2">
             <div className="w-full h-18/20">
                 <div className="h-full w-full relative">
-                    <a href={deal.flight_link} target="_blank" className="hover:opacity-85">
-                        <img src={deal.thumbnail} className="min-h-0 h-full w-full" alt="HTML 5 ICON"/>
+                    <a href={deal.flight_link} target="_blank" className="hover:opacity-75">
+                        <img src={deal.thumbnail} className="min-h-0 h-full max-h-80 w-full" alt="HTML 5 ICON"/>
                     </a>
                     <div className="flex flex-col absolute top-8/10 items-center left-1/30 z-50">
                         <div className="text-2xl text-white font-bold self-start">{deal.name}</div>
