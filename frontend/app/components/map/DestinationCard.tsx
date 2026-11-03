@@ -1,16 +1,5 @@
 import type {Deal} from "~/models/Deal";
-import dayjs from "dayjs";
-
-const round = (num: number): number => Math.round(num * 100) / 100
-const durationConverter = (duration: number): string => {
-    const hours = Math.floor(duration / 60)
-    const minutes = duration - hours * 60
-    return `${hours}hr, ${minutes}min`
-}
-const dateConverter = (date: string): string => {
-    const formatString = "ddd, MMM DD"
-    return dayjs(date).format(formatString)
-}
+import {dateConverter, durationConverter, round} from "~/utils/utils";
 
 export default function DestinationCard({deal}: {deal: Deal}) {
     const hasDiscount = deal.discount_percentage !== 0

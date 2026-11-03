@@ -38,7 +38,7 @@ export default function WorldMap({clusterMap, dealMap}: MarkerData){
                 >
                     {[...cityMarkers].map(([city, markerData]) => (
                         <Marker position={{lat: markerData.lat, lng: markerData.lng}}>
-                            <Popup>
+                            <Popup minWidth={320} maxHeight={300}>
                                 { <CustomPopup deals={dealMap.get(city)!!.deals}/>}
                             </Popup>
                         </Marker>
