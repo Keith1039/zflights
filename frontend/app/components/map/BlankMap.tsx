@@ -39,6 +39,7 @@ export default function WorldMap({allDeals, setCountry, doneLoading, open, setOp
             minZoom={2}
             maxBounds={maxBounds}
             maxBoundsViscosity={1.0}
+            scrollWheelZoom={false}
         >
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
