@@ -28,6 +28,10 @@ export default function (){
     const [open, setOpen] = useState<boolean>(true)
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
+    const resetCountry = () => {
+        setCountry(null)
+    }
+
     const setFocusCountry = (targetCountry: string, onSet: () => void, onRemove: () => void) => {
         if (country === targetCountry) {
             setCountry(null)
@@ -103,6 +107,7 @@ export default function (){
                     <WorldMap
                         allDeals={allDeals}
                         setCountry={setFocusCountry}
+                        resetCountry={resetCountry}
                         doneLoading={() => {
                             setIsLoading(false);
                         }}
