@@ -17,7 +17,7 @@ export function HydrateFallback() {
 }
 
 
-const WorldMap = lazy(() => import("~/components/map/DealsWorldMap"))
+const DealsWorldMap = lazy(() => import("~/components/map/DealsWorldMap"))
 
 export default function (){
     // our cache of sorts
@@ -104,7 +104,7 @@ export default function (){
         <Suspense fallback={<div className="text-lg">Loading...</div>}>
             <div className="grow min-h-0 z-20">
                 <div className="w-full h-17/20 absolute">
-                    <WorldMap
+                    <DealsWorldMap
                         allDeals={allDeals}
                         setCountry={setFocusCountry}
                         resetCountry={resetCountry}
