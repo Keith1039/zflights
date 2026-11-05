@@ -17,7 +17,7 @@ export function HydrateFallback() {
 }
 
 
-const WorldMap = lazy(() => import("~/components/map/BlankMap"))
+const WorldMap = lazy(() => import("~/components/map/DealsWorldMap"))
 
 export default function (){
     // our cache of sorts
