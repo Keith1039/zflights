@@ -1,12 +1,29 @@
 import {useState} from "react";
 import SelectedFolderHeader from "~/components/headers/SelectedHeader";
 import FolderHeader from "~/components/headers/FolderHeader";
-import GeneralSettingsForm from "~/components/forms/GeneralSettingsForm";
-import EmailSettingsForm from "~/components/forms/EmailSettingsForm";
-import OtherSettingsForm from "~/components/forms/OtherSettingsForm";
+import GeneralSettingsForm, {generalFormAction } from "~/components/forms/GeneralSettingsForm";
+import EmailSettingsForm, {emailFormAction} from "~/components/forms/EmailSettingsForm";
+import OtherSettingsForm, {otherFormAction} from "~/components/forms/OtherSettingsForm";
+import type { Route } from "../../.react-router/types/app/routes/+types/_loggedin.settings"
+
 
 type SettingSubPages = "general" | "email" | "other"
 
+export async function action({request}: Route.ActionArgs) {
+    const formData = await request.formData();
+
+    const form = formData.get("form");
+    switch (form) {
+        case "general":
+            return generalFormAction(formData)
+        case "email":
+            return emailFormAction(formData)
+        case "other":
+            return otherFormAction(formData)
+        default:
+            return null
+    }
+}
 
 export default function () {
     const [subPage, setSubPage] = useState<SettingSubPages>("general");
