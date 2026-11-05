@@ -1,6 +1,9 @@
 import {useState} from "react";
 import SelectedFolderHeader from "~/components/headers/SelectedHeader";
 import FolderHeader from "~/components/headers/FolderHeader";
+import GeneralSettingsForm from "~/components/forms/GeneralSettingsForm";
+import EmailSettingsForm from "~/components/forms/EmailSettingsForm";
+import OtherSettingsForm from "~/components/forms/OtherSettingsForm";
 
 type SettingSubPages = "general" | "email" | "other"
 
@@ -21,7 +24,19 @@ export default function () {
                 ))}
             </div>
             <div className="grow w-full min-h-0 bg-gray-600">
-
+                {(() => {
+                    switch (subPage) {
+                        case "general":
+                            return <GeneralSettingsForm/>
+                        case "email":
+                            return <EmailSettingsForm/>
+                        case "other":
+                            return <OtherSettingsForm/>
+                        default:
+                            return <></>
+                    }
+                })()
+                }
             </div>
         </div>
     )
