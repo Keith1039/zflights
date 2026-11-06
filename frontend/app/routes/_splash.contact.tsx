@@ -48,7 +48,7 @@ export default function Contact() {
     ];
 
     return (
-        <div className="min-h-screen bg-[#10102B] text-white">
+        <div className="relative z-20 min-h-full overflow-hidden bg-[#080B14] text-white">
 
             {/* Hero */}
             <section className="relative overflow-hidden px-6 pb-16 pt-20 text-center">
@@ -257,19 +257,20 @@ export default function Contact() {
             </main>
 
             {/* Footer */}
-            <footer className="border-t border-white/10 bg-[#0B0B21]">
-                <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 py-8 sm:flex-row">
-                    <Link to="/" className="flex items-center gap-2">
-                        <Plane size={20} className="text-indigo-400" />
-                        <span className="font-bold">
-              aero<span className="text-indigo-400">find</span>
-            </span>
-                    </Link>
-
-                    <p className="text-center text-xs text-indigo-100/30">
-                        © 2026 AeroFind. All rights reserved.
-                    </p>
-                </div>
+            {/* Disclaimer Footer */}
+            <footer className="mt-16 border-t border-white/[0.08] pt-8 text-center">
+                <p className="text-xs font-semibold text-amber-400">
+                    Disclaimer: This company is entirely fictional.
+                </p>
+                <p className="mt-2 text-xs text-slate-500">
+                    All names, characters, statistics, stories, and claims
+                    on this page are invented. This is a demonstration
+                    project, not a real travel agency.
+                </p>
+                <p className="mt-5 text-[10px] text-slate-600">
+                    © {new Date().getFullYear()} Imaginary Airlines & Co.
+                    — Probably not flying anywhere.
+                </p>
             </footer>
         </div>
     );
