@@ -36,6 +36,7 @@ export default function WorldMap({allDeals, setCountry, doneLoading, open, setOp
         <MapContainer
             style={{height: "100%"}}
             center={[20, 0]}
+            maxZoom={20}
             zoom={2}
             minZoom={2}
             maxBounds={maxBounds}
@@ -43,8 +44,8 @@ export default function WorldMap({allDeals, setCountry, doneLoading, open, setOp
             scrollWheelZoom={false}
         >
             <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://stadiamaps.com/attribution/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
+                url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
             />
             <DealList
                 allDeals={allDeals}
