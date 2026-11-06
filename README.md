@@ -6,7 +6,7 @@ as I configured I realized it was a pain spinning up a lambda every time I wante
 done.
 
 ## Demo Video
-For those who cannot run the project, I have a demo video available here!
+For those who cannot run the project, I have a demo video available [here](https://drive.google.com/file/d/1wtbH-nP_apw8xVi8QSoFUXPRWNKDtbO6/view?usp=sharing)!
 
 ## Running the project
 The entire project is available by simply running the `docker-compose` file.
