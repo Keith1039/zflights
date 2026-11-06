@@ -6,6 +6,20 @@ import type {Deal} from "~/models/Deal";
 import DealList from "~/components/map/DealList";
 import CustomMarker from "~/components/map/CustomMarker";
 
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+const DefaultIcon = L.icon({
+    iconUrl: markerIcon,
+    iconRetinaUrl: markerIcon2x,
+    shadowUrl: markerShadow,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
+
 type DealMapData = {
     allDeals: Deal[];
     resetCountry: () => void;
