@@ -17,9 +17,9 @@ docker compose up --build
 This will initialize all the services. For the purpose of this branch however,
 only 2 matter.
 
-[frontend](localhost:5173): The website itself.
+[frontend](https://localhost:5173): The website itself.
 
-[json-server](localhost:8000): Static data meant to show off some features
+[json-server](https://localhost:8000): Static data meant to show off some features
 
 Please be sure tp check out the interactive maps on the paths `/deals` and `/map`.
 For the purposes of the branch I have disabled auth so you can either go there via a button
