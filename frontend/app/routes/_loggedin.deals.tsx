@@ -102,8 +102,8 @@ export default function (){
 
     return (
         <Suspense fallback={<div className="text-lg">Loading...</div>}>
-            <div className="grow min-h-0 z-20">
-                <div className="w-full h-17/20 absolute">
+            <div className="relative grow min-h-0 z-20">
+                <div className="w-full h-full absolute">
                     <DealsWorldMap
                         allDeals={allDeals}
                         setCountry={setFocusCountry}
