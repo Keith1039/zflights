@@ -9,7 +9,6 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import Threads from "~/components/Threads";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -26,42 +25,45 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+      <html lang="en" className="dark">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body className="h-full w-full">
-        <div className="w-full bg-black absolute top-0 left-0 z-10">
-          <Threads
-            color="#ffffff"
-            lineCount={90}
-            thickness={0.6}
-            softness={1.3}
-            amplitude={1.7}
-            distance={0.4}
-            waves={1.05}
-            speed={0.6}
-            split={0.04}
-            fray={0.5}
-            angle={0}
-            taper={0.85}
-            brightness={1.4}
-            parting={0}
-            fade={0}
-            opacity={1}
-            seed={0}
-            className="min-h-dvh"/>
+
+      <body className="min-h-dvh bg-[#080B14] text-white antialiased">
+      <div className="relative isolate min-h-dvh overflow-hidden">
+
+        {/* Background Effects */}
+        <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+
+          {/* Main background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0D1221] via-[#080B14] to-[#05070D]" />
+
+          {/* Indigo ambient glow */}
+          <div className="absolute -top-64 left-1/2 h-[600px] w-[900px] -translate-x-1/2 rounded-full bg-indigo-600/[0.10] blur-[150px]" />
+
+          {/* Violet ambient glow */}
+          <div className="absolute -bottom-64 -right-40 h-[600px] w-[600px] rounded-full bg-violet-600/[0.07] blur-[150px]" />
+
+          {/* Subtle dot texture */}
+          <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.045)_1px,transparent_1px)] [background-size:32px_32px]" />
+
+          {/* Dark vignette */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(0,0,0,0.25)_100%)]" />
         </div>
-        <div>
+
+        <div className="relative z-10 min-h-dvh">
           {children}
-          <ScrollRestoration />
-          <Scripts />
         </div>
+
+        <ScrollRestoration />
+        <Scripts />
+      </div>
       </body>
-    </html>
+      </html>
   );
 }
 
