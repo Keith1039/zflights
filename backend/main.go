@@ -19,9 +19,9 @@ func main() {
 	router.POST("/deals/delete", routes.HandleDissociateDeal)
 
 	// user routes
-	router.POST("/settings/update/general", routes.HandleUpdateGeneralConfig)
+	router.POST("/settings/general/update", routes.HandleUpdateGeneralConfig)
 
-	router.POST("/settings/update/email", routes.HandleUpdateEmailConfig)
+	router.POST("/settings/email/update", routes.HandleUpdateEmailConfig)
 
 	err := router.Run(":8080")
 	if err != nil {
