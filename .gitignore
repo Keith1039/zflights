@@ -1,5 +1,6 @@
 frontend/.DS_Store
 .env
+.idea
 frontend/node_modules/
 
 # React Router
@@ -8,9 +9,14 @@ frontend/build/
 frontend/launch.sh
 frontend/.idea
 
+# Backend
+backend/.idea
+
+
 #migrations dir
 migrations/
 
 #scripts
 update_migrations.sh
 start.sh
+backend/runtest.sh

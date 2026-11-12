@@ -7,7 +7,7 @@ import (
 )
 
 type generalConfig struct {
-	Threshold           int      `json:"threshold" binding:"required"`
+	Threshold           int      `json:"threshold" binding:"required,min=10,max=100"`
 	InterestedCountries []string `json:"interested_countries" binding:"required"`
 	DepartureAirports   []string `json:"departure_airports" binding:"required,max=3"`
 }
@@ -20,13 +20,14 @@ type emailConfig struct {
 func HandleUpdateGeneralConfig(c *gin.Context) {
 	ctx := c.Request.Context()
 	reqStruct := generalConfig{}
-	err := c.MustBindWith(&reqStruct, binding.JSON)
+	err := c.ShouldBindWith(&reqStruct, binding.JSON)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"err": err.Error(),
 		})
 		return
 	}
+
 	user, err := client.Client.GetUser(ctx, id)
 	if err != nil {
 		c.JSON(500, gin.H{
