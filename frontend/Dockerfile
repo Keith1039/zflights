@@ -1,6 +1,9 @@
 FROM node:24-alpine AS development-dependencies-env
 COPY . /app
 WORKDIR /app
+
+ARG BACKEND_URL
+ENV BACKEND_URL=$BACKEND_URL
 RUN npm ci
 
 FROM node:24-alpine AS production-dependencies-env
