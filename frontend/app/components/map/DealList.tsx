@@ -3,6 +3,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import ListDestinationCard from "~/components/map/ListDestinationCard";
 import type {Deal} from "~/models/Deal";
 import {useMap} from "react-leaflet";
+import api from "~/axios/api"
 
 type ListData = {
     allDeals: Deal[];
@@ -13,6 +14,7 @@ type ListData = {
     setOpen: (open: boolean) => void;
     resetCountry: () => void;
 }
+
 export default function DealList({open, setOpen, resetCountry, allDeals, fetchMore, hasMore, currentDeals}: ListData) {
     const map = useMap();
 
@@ -43,7 +45,9 @@ export default function DealList({open, setOpen, resetCountry, allDeals, fetchMo
                     endMessage={<p style={{ textAlign: 'center' }}>All items loaded.</p>}
                 >
                     {currentDeals.map(deal => (
-                        <ListDestinationCard deal={deal}/>
+                        <ListDestinationCard
+                            deal={deal}
+                        />
                     ))}
                 </InfiniteScroll>
             </div>}

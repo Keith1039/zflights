@@ -9,6 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import {Bounce, ToastContainer} from "react-toastify";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -57,8 +58,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
         <div className="relative z-10 min-h-dvh">
           {children}
+          <ToastContainer
+              position="bottom-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+              transition={Bounce}
+          />
         </div>
-
         <ScrollRestoration />
         <Scripts />
       </div>

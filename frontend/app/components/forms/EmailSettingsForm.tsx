@@ -2,17 +2,16 @@
 import { useForm } from "@tanstack/react-form";
 import type { CustomOption } from "~/models/Option";
 import Select from "react-select";
-
-export async function emailFormAction(formData: FormData) {
-    const name = formData.get("visitorsName");
-    return { message: `Hello, ${name}` };
-}
+import type {EmailConfig, User} from "~/models/user";
+import api from "~/axios/api"
+import {toast, ToastContainer} from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 enum BatchEmailOpts {
-    NO_BATCH = 1,
-    WEEKLY,
-    MONTHLY,
-    QUARTERLY,
+    NO_BATCH = "NO_BATCH",
+    WEEKLY = "WEEKLY",
+    MONTHLY = "MONTHLY",
+    QUARTERLY = "QUARTERLY",
 }
 
 const options: CustomOption<BatchEmailOpts>[] = [
@@ -21,6 +20,12 @@ const options: CustomOption<BatchEmailOpts>[] = [
     { value: BatchEmailOpts.MONTHLY, label: "Monthly" },
     { value: BatchEmailOpts.QUARTERLY, label: "Quarterly" },
 ];
+
+// set it
+const optionMap = new Map<BatchEmailOpts, CustomOption<BatchEmailOpts>>();
+for (const option of options) {
+    optionMap.set(option.value, option)
+}
 
 const selectStyles = {
     control: (base: any, state: any) => ({
@@ -89,14 +94,35 @@ const selectStyles = {
     }),
 };
 
-export default function EmailSettingsForm() {
-    const { Field, handleSubmit } = useForm({
+export default function EmailSettingsForm({user, updateUser}: {user: User, updateUser:(user: User) => void}) {
+    const { Field, Subscribe, handleSubmit } = useForm({
         defaultValues: {
-            allowEmails: true,
-            batchEmails: options[0],
+            subscribed: user.email_config.subscribed,
+            batch_type: optionMap.get(BatchEmailOpts[user.email_config.batch_type as keyof typeof BatchEmailOpts]) || optionMap.get(BatchEmailOpts.NO_BATCH),
         },
         onSubmit: async ({ value }) => {
-            console.log(value);
+            const params = {
+                subscribed: value.subscribed,
+                batch_type: value.batch_type!!.value.toString()
+            }
+            const res = await toast.promise(
+                api.post("/settings/email/update", params),
+                {
+                    pending: "beginning update...",
+                    success: "settings successfully updated!",
+                    error: "update failed. Please try again later.",
+                }
+            )
+            if (res.status === 200) {
+                const updatedUser = {
+                    ...user,
+                } as User
+                updatedUser.email_config.subscribed = value.subscribed
+                updatedUser.email_config.batch_type = value.batch_type!!.toString()
+                updateUser(updatedUser)
+            } else {
+                // notification that update failed, a toast or something
+            }
         },
     });
 
@@ -110,7 +136,7 @@ export default function EmailSettingsForm() {
             }}
         >
             {/* Email Notifications */}
-            <Field name="allowEmails">
+            <Field name="subscribed">
                 {(field) => (
                     <div className="flex items-center justify-between gap-4 rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 sm:p-5">
                         <div className="flex items-center gap-3">
@@ -129,7 +155,7 @@ export default function EmailSettingsForm() {
 
                             <div>
                                 <label
-                                    htmlFor="allowEmails"
+                                    htmlFor="subscribed"
                                     className="block text-sm font-semibold text-white"
                                 >
                                     Email Notifications
@@ -143,7 +169,7 @@ export default function EmailSettingsForm() {
 
                         {/* Toggle */}
                         <button
-                            id="allowEmails"
+                            id="subscribed"
                             type="button"
                             role="switch"
                             aria-checked={field.state.value}
@@ -169,65 +195,68 @@ export default function EmailSettingsForm() {
             </Field>
 
             {/* Email Frequency */}
-            <Field name="batchEmails">
-                {(field) => {
-                    const emailsEnabled =
-                        field.form.getFieldValue("allowEmails");
-
-                    return (
-                        <div
-                            className={`transition-opacity duration-200 ${
-                                !emailsEnabled
-                                    ? "pointer-events-none opacity-40"
-                                    : ""
-                            }`}
-                        >
-                            <div className="mb-3">
-                                <label
-                                    htmlFor="batchEmails"
-                                    className="block text-sm font-semibold text-white"
+            <Subscribe selector={(state) => state.values.subscribed}>
+                {(subscribed) => (
+                    <Field name="batch_type">
+                        {(field) => {
+                            return (
+                                <div
+                                    className={`transition-opacity duration-200 ${
+                                        !subscribed
+                                            ? "pointer-events-none opacity-40"
+                                            : ""
+                                    }`}
                                 >
-                                    Email Frequency
-                                </label>
-                                <p className="mt-1 text-xs leading-relaxed text-slate-400">
-                                    Choose how often you'd like to receive
-                                    flight deal notifications.
-                                </p>
-                            </div>
+                                    <div className="mb-3">
+                                        <label
+                                            htmlFor="batch_type"
+                                            className="block text-sm font-semibold text-white"
+                                        >
+                                            Email Frequency
+                                        </label>
+                                        <p className="mt-1 text-xs leading-relaxed text-slate-400">
+                                            Choose how often you'd like to receive
+                                            flight deal notifications.
+                                        </p>
+                                    </div>
 
-                            <Select<CustomOption<BatchEmailOpts>, false>
-                                inputId="batchEmails"
-                                name="batchEmails"
-                                options={options}
-                                value={field.state.value}
-                                isDisabled={!emailsEnabled}
-                                isSearchable={false}
-                                isClearable={false}
-                                closeMenuOnSelect
-                                styles={selectStyles}
-                                onChange={(selected) => {
-                                    if (selected) {
-                                        field.handleChange(selected);
-                                    }
-                                }}
-                                className="text-sm"
-                                classNamePrefix="custom-select"
-                            />
+                                    <Select<CustomOption<BatchEmailOpts>, false>
+                                        inputId="batch_type"
+                                        name="batch_type"
+                                        options={options}
+                                        value={field.state.value}
+                                        isDisabled={!subscribed}
+                                        isSearchable={false}
+                                        isClearable={false}
+                                        closeMenuOnSelect
+                                        styles={selectStyles}
+                                        onChange={(selected) => {
+                                            if (selected) {
+                                                field.handleChange(selected);
+                                            }
+                                        }}
+                                        className="text-sm"
+                                        classNamePrefix="custom-select"
+                                    />
 
-                            <p className="mt-2 text-[11px] text-slate-500">
-                                You can change your notification frequency
-                                anytime.
-                            </p>
-                        </div>
-                    );
-                }}
-            </Field>
+                                    <p className="mt-2 text-[11px] text-slate-500">
+                                        You can change your notification frequency
+                                        anytime.
+                                    </p>
+                                </div>
+                            );
+                        }}
+                    </Field>
+                )
+
+                }
+            </Subscribe>
 
             {/* Submit */}
             <div className="flex justify-end border-t border-white/[0.08] pt-6">
                 <button
                     type="submit"
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition-all hover:bg-indigo-500 hover:shadow-indigo-500/20 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 active:scale-[0.98]"
+                    className="cursor-pointer inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition-all hover:bg-indigo-500 hover:shadow-indigo-500/20 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 active:scale-[0.98]"
                 >
                     Save Preferences
                     <svg

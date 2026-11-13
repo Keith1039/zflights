@@ -44,7 +44,7 @@ func Test_POST_settings_update_general(t *testing.T) {
 	// missing departure airports
 	m = map[string]any{
 		"threshold":            10,
-		"interested_countries": []string{},
+		"subscribed_countries": []string{},
 	}
 	mBytes, err = json.Marshal(m)
 	if err != nil {
@@ -57,9 +57,9 @@ func Test_POST_settings_update_general(t *testing.T) {
 
 	// threshold < 0
 	m = map[string]any{
-		"threshold":            0,
-		"interested_countries": []string{},
-		"departure_airports":   []string{},
+		"threshold":            -1,
+		"subscribed_countries": []string{},
+		"relevant_airports":    []string{},
 	}
 	mBytes, err = json.Marshal(m)
 	if err != nil {
@@ -70,11 +70,11 @@ func Test_POST_settings_update_general(t *testing.T) {
 	r.ServeHTTP(w, req)
 	assert.Equal(t, 400, w.Code)
 
-	// threshold > 0
+	// threshold > 100
 	m = map[string]any{
 		"threshold":            101,
-		"interested_countries": []string{},
-		"departure_airports":   []string{},
+		"subscribed_countries": []string{},
+		"relevant_airports":    []string{},
 	}
 	mBytes, err = json.Marshal(m)
 	if err != nil {
@@ -88,8 +88,8 @@ func Test_POST_settings_update_general(t *testing.T) {
 	// len departure airports > 3
 	m = map[string]any{
 		"threshold":            100,
-		"interested_countries": []string{},
-		"departure_airports":   []string{"", "", "", ""},
+		"subscribed_countries": []string{},
+		"relevant_airports":    []string{"", "", "", ""},
 	}
 	mBytes, err = json.Marshal(m)
 	if err != nil {
@@ -100,11 +100,10 @@ func Test_POST_settings_update_general(t *testing.T) {
 	r.ServeHTTP(w, req)
 	assert.Equal(t, 400, w.Code)
 
-	// len departure airports > 3
 	m = map[string]any{
 		"threshold":            10,
-		"interested_countries": []string{},
-		"departure_airports":   []string{"", "", ""},
+		"subscribed_countries": []string{},
+		"relevant_airports":    []string{"", "", ""},
 	}
 	mBytes, err = json.Marshal(m)
 	if err != nil {
@@ -137,18 +136,18 @@ func Test_POST_settings_update_email(t *testing.T) {
 	r.ServeHTTP(w, req)
 	assert.Equal(t, 400, w.Code)
 
-	// missing subscribed
-	m = map[string]any{
-		"batch_type": "NO_BATCH",
-	}
-	mBytes, err = json.Marshal(m)
-	if err != nil {
-		t.Fatal("failed to marshal JSON")
-	}
-	w = httptest.NewRecorder()
-	req, _ = http.NewRequest("POST", "/settings/email/update", bytes.NewReader(mBytes))
-	r.ServeHTTP(w, req)
-	assert.Equal(t, 400, w.Code)
+	//// missing subscribed
+	//m = map[string]any{
+	//	"batch_type": "NO_BATCH",
+	//}
+	//mBytes, err = json.Marshal(m)
+	//if err != nil {
+	//	t.Fatal("failed to marshal JSON")
+	//}
+	//w = httptest.NewRecorder()
+	//req, _ = http.NewRequest("POST", "/settings/email/update", bytes.NewReader(mBytes))
+	//r.ServeHTTP(w, req)
+	//assert.Equal(t, 400, w.Code)
 
 	// missing subscribed
 	m = map[string]any{

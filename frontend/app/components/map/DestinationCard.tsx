@@ -1,7 +1,11 @@
 import type {Deal} from "~/models/Deal";
 import {dateConverter, durationConverter, round} from "~/utils/utils";
+import {Bookmark} from "lucide-react";
+import {useState} from "react";
+import {associateDeal, dissociateDeal} from "~/axios/helpers"
 
-export default function DestinationCard({ deal }: { deal: Deal }) {
+export default function DestinationCard({ deal }: {deal: Deal}) {
+    const [isBookmarked, setIsBookmarked] = useState<Boolean>(true)
     const hasDiscount = deal.discount_percentage !== 0;
     const realDiscount = 1 - deal.discount_percentage / 100;
     const originalPrice = hasDiscount
@@ -34,6 +38,22 @@ export default function DestinationCard({ deal }: { deal: Deal }) {
                         -{deal.discount_percentage}%
                     </div>
                 )}
+                {/* Bookmark Button */}
+                <button
+                    type="button"
+                    aria-label="Bookmark destination"
+                    className="absolute cursor-pointer right-2 top-2 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white shadow-lg backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white hover:text-indigo-600"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        if (isBookmarked) {
+                            dissociateDeal(deal.id, () => setIsBookmarked(false))
+                        } else {
+                            associateDeal(deal.id, () => setIsBookmarked(true))
+                        }
+                    }}
+                >
+                    <Bookmark className="h-5 w-5" fill={isBookmarked ? "black" : "none"}/>
+                </button>
 
                 <div className="absolute bottom-3 left-3 right-2">
                     <p className="text-[9px] font-semibold uppercase tracking-widest text-white/70">
@@ -103,6 +123,7 @@ export default function DestinationCard({ deal }: { deal: Deal }) {
                             : `${deal.stops} ${deal.stops === 1 ? "stop" : "stops"}`}
                     </span>
                 </div>
+
 
                 <div className="mt-1.5 flex items-center justify-between">
                     <span className="text-[10px] text-slate-500">

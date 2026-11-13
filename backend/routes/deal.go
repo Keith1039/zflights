@@ -44,15 +44,17 @@ func HandleGetDeals(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(200, GeoDeals{Deals: transformDealsToGeoDeals(deals)})
+	c.JSON(200, transformDealsToGeoDeals(deals))
 }
 
 type paginatedReq struct {
-	Limit  int `form:"limit" binding:"required,min=1"`
-	Offset int `form:"offset,default=0" binding:"gte=0"`
+	Limit   int    `form:"limit" binding:"required,min=1"`
+	Offset  int    `form:"offset,default=0" binding:"gte=0"`
+	Country string `form:"country"`
 }
 
 func HandleGetRecommendations(c *gin.Context) {
+	var deals []schema.Deal
 	ctx := c.Request.Context()
 	reqStruct := paginatedReq{}
 	err := c.ShouldBindWith(&reqStruct, binding.Query)
@@ -62,14 +64,19 @@ func HandleGetRecommendations(c *gin.Context) {
 		})
 		return
 	}
-	deals, err := client.Client.GetNonUserDeals(ctx, id, reqStruct.Limit, reqStruct.Offset)
+	if reqStruct.Country == "" {
+		deals, err = client.Client.GetNonUserDeals(ctx, id, reqStruct.Limit, reqStruct.Offset)
+	} else {
+		fmt.Println("here for countries!")
+		deals, err = client.Client.GetNonUserDealsForCountry(ctx, id, reqStruct.Limit, reqStruct.Offset, reqStruct.Country)
+	}
 	if err != nil {
 		c.JSON(500, gin.H{
 			"err": err.Error(),
 		})
 		return
 	}
-	c.JSON(200, GeoDeals{Deals: transformDealsToGeoDeals(deals)})
+	c.JSON(200, transformDealsToGeoDeals(deals))
 }
 
 type associateDealStruct struct {
@@ -86,7 +93,7 @@ func HandleAssociateDeal(c *gin.Context) {
 		})
 		return
 	}
-	err = client.Client.MapUserAndDeal(ctx, nil, id, reqStruct.DealId)
+	err = client.Client.MapUserAndDeal(ctx, client.Client.GetConn(), id, reqStruct.DealId)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"err": err.Error(),

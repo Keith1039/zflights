@@ -1,6 +1,7 @@
 FROM node:24-alpine AS development-dependencies-env
 COPY . /app
 WORKDIR /app
+
 RUN npm ci
 
 FROM node:24-alpine AS production-dependencies-env
@@ -12,6 +13,13 @@ FROM node:24-alpine AS build-env
 COPY . /app/
 COPY --from=development-dependencies-env /app/node_modules /app/node_modules
 WORKDIR /app
+
+ARG VITE_BACKEND_URL
+ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
+
+RUN mkdir -p public/leaflet/images
+RUN cp node_modules/leaflet/dist/images/* public/leaflet/images/
+
 RUN npm run build
 
 FROM node:24-alpine

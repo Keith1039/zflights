@@ -1,11 +1,7 @@
 import {Form, useActionData} from "react-router";
+import type {User} from "~/models/user";
 
-export async function otherFormAction( formData: FormData) {
-    const name = formData.get("visitorsName");
-    return { message: `Hello, ${name}` };
-}
-
-export default function OtherSettingsForm() {
+export default function OtherSettingsForm({user, updateUser}: {user: User, updateUser:(user: User) => void}) {
     const data = useActionData<{message: string} | undefined>();
     return (
         <Form method="post" className="flex flex-col">

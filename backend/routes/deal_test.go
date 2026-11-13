@@ -30,21 +30,21 @@ func setupDealRouter() *gin.Engine {
 }
 
 func Test_GET_deals(t *testing.T) {
-	var deals routes.GeoDeals
+	var deals []routes.GeoDeal
 	r := setupDealRouter()
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/deals", nil)
 	r.ServeHTTP(w, req)
-	bytes := w.Body.Bytes()
+	mBytes := w.Body.Bytes()
 	assert.Equal(t, 200, w.Code)
-	err := json.Unmarshal(bytes, &deals)
+	err := json.Unmarshal(mBytes, &deals)
 	if err != nil {
 		t.Fatal("Could not marshal body to GeoDeals struct")
 	}
 }
 
 func Test_GET_deals_recommend(t *testing.T) {
-	var deals routes.GeoDeals
+	var deals []routes.GeoDeal
 	r := setupDealRouter()
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/deals/recommend", nil)
@@ -104,8 +104,34 @@ func Test_GET_deals_recommend(t *testing.T) {
 	if err != nil {
 		t.Fatal("Could not unmarshal body to GeoDeals struct")
 	}
-	if len(deals.Deals) != 1 {
-		t.Fatalf("Expected length of 1, got %d", len(deals.Deals))
+	if len(deals) != 1 {
+		t.Fatalf("Expected length of 1, got %d", len(deals))
+	}
+
+	//adding country
+	w = httptest.NewRecorder()
+	req, _ = http.NewRequest("GET", "/deals/recommend", nil)
+	q = req.URL.Query()
+	q.Add("limit", "1")
+	user, err := client.Client.GetUser(context.Background(), 2)
+	if err != nil {
+		t.Fatal(err)
+	}
+	q.Add("country", user.SubscribedCountries[0])
+	req.URL.RawQuery = q.Encode()
+	r.ServeHTTP(w, req)
+	assert.Equal(t, 200, w.Code)
+	err = json.Unmarshal(w.Body.Bytes(), &deals)
+	if err != nil {
+		t.Fatal("Could not unmarshal body to GeoDeals struct")
+	}
+	if len(deals) != 1 {
+		t.Fatalf("Expected length of 1, got %d", len(deals))
+	}
+	if deals[0].Country != user.SubscribedCountries[0] {
+		t.Log(deals[0].Country)
+		t.Log(user.SubscribedCountries[0])
+		t.Fatal("failed to ensure that countries in deals matched given country")
 	}
 }
 

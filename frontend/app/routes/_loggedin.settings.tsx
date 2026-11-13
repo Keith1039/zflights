@@ -1,26 +1,24 @@
 import { useState } from "react";
-import GeneralSettingsForm, {generalFormAction,} from "~/components/forms/GeneralSettingsForm";
-import EmailSettingsForm, {emailFormAction,} from "~/components/forms/EmailSettingsForm";
-import OtherSettingsForm, {otherFormAction} from "~/components/forms/OtherSettingsForm";
+import GeneralSettingsForm from "~/components/forms/GeneralSettingsForm";
+import EmailSettingsForm  from "~/components/forms/EmailSettingsForm";
+import OtherSettingsForm from "~/components/forms/OtherSettingsForm";
 import type { Route } from "../../.react-router/types/app/routes/+types/_loggedin.settings";
+import api from "~/axios/api";
+import type {User} from "~/models/user";
+import {useLoaderData} from "react-router";
+
+export async function clientLoader({}: Route.ClientLoaderArgs): Promise<User> {
+    const res = await api.get("/user", {})
+    return res.data as User;
+}
+
+// HydrateFallback is rendered while the client loader is running
+export function HydrateFallback() {
+    return <div>Loading...</div>;
+}
+
 
 type SettingSubPages = "general" | "email" | "other";
-
-export async function action({ request }: Route.ActionArgs) {
-    const formData = await request.formData();
-    const form = formData.get("form");
-
-    switch (form) {
-        case "general":
-            return generalFormAction(formData);
-        case "email":
-            return emailFormAction(formData);
-        case "other":
-            return otherFormAction(formData);
-        default:
-            return null;
-    }
-}
 
 const pages: {
     id: SettingSubPages;
@@ -63,10 +61,9 @@ const pages: {
 ];
 
 export default function SettingsPage() {
+    const [user, setUser] = useState<User>(useLoaderData<User>());
     const [subPage, setSubPage] = useState<SettingSubPages>("general");
-
     const activePage = pages.find((page) => page.id === subPage)!;
-
     return (
         <div className="relative z-20 flex min-h-full w-full flex-col px-4 py-8 sm:px-6 lg:px-10">
 
@@ -171,11 +168,11 @@ export default function SettingsPage() {
                         {(() => {
                             switch (subPage) {
                                 case "general":
-                                    return <GeneralSettingsForm />;
+                                    return <GeneralSettingsForm user={user} updateUser={(user: User) => {setUser(user)}} />;
                                 case "email":
-                                    return <EmailSettingsForm />;
+                                    return <EmailSettingsForm user={user} updateUser={(user: User) => {setUser(user)}}/>;
                                 case "other":
-                                    return <OtherSettingsForm />;
+                                    return <OtherSettingsForm user={user} updateUser={(user: User) => {setUser(user)}}/>;
                             }
                         })()}
                     </div>

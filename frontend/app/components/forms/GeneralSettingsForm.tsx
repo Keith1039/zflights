@@ -2,11 +2,11 @@
 import { useForm } from "@tanstack/react-form";
 import Select from "react-select";
 import type { Option } from "~/models/Option";
-
-export async function generalFormAction(formData: FormData) {
-    const name = formData.get("visitorsName");
-    return { message: `Hello, ${name}` };
-}
+import type {User} from "~/models/user";
+import {convertOptions, convertStrArrToOptions} from "~/utils/utils";
+import api from "~/axios/api"
+import {toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
 
 const options: Option[] = [
     { value: "chocolate", label: "Chocolate" },
@@ -108,15 +108,38 @@ const selectStyles = {
     }),
 };
 
-export default function GeneralSettingsForm() {
+export default function GeneralSettingsForm({user, updateUser}: {user: User, updateUser:(user: User) => void}) {
     const { Field, handleSubmit } = useForm({
         defaultValues: {
-            threshold: 50,
-            interestedCountries: [] as Option[],
-            departureAirports: [] as Option[],
+            threshold: user.threshold,
+            interestedCountries: convertStrArrToOptions(user.subscribed_countries),
+            departureAirports: convertStrArrToOptions(user.relevant_airports),
         },
         onSubmit: async ({ value }) => {
-            console.log(value);
+            const params = {
+                threshold: value.threshold,
+                subscribed_countries: convertOptions(value.interestedCountries),
+                relevant_airports: convertOptions(value.departureAirports)
+            }
+            const res = await toast.promise(
+                api.post("/settings/general/update", params),
+                {
+                    pending: "beginning update...",
+                    success: "settings successfully updated!",
+                    error: "update failed. Please try again later.",
+                }
+            )
+            if (res.status === 200) {
+                const updatedUser: User = {
+                    ...user,
+                }
+                updatedUser.threshold = value.threshold;
+                updatedUser.subscribed_countries = convertOptions(value.interestedCountries)
+                updatedUser.relevant_airports = convertOptions(value.departureAirports)
+                updateUser(updatedUser)
+            } else {
+                // toast or something
+            }
         },
     });
 
@@ -340,7 +363,7 @@ export default function GeneralSettingsForm() {
 
                 <button
                     type="submit"
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition-all hover:bg-indigo-500 hover:shadow-indigo-500/20 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 active:scale-[0.98]"
+                    className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition-all hover:bg-indigo-500 hover:shadow-indigo-500/20 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 active:scale-[0.98]"
                 >
                     Save Settings
                     <svg
