@@ -7,14 +7,27 @@ import (
 )
 
 type generalConfig struct {
-	Threshold           int      `json:"threshold" binding:"required,min=10,max=100"`
-	InterestedCountries []string `json:"interested_countries" binding:"required"`
-	DepartureAirports   []string `json:"departure_airports" binding:"required,max=3"`
+	Threshold           int      `json:"threshold" binding:"min=0,max=100"`
+	InterestedCountries []string `json:"subscribed_countries" binding:"required"`
+	DepartureAirports   []string `json:"relevant_airports" binding:"required,max=3"`
 }
 
 type emailConfig struct {
-	Subscribed bool   `json:"subscribed" binding:"required"`
+	Subscribed bool   `json:"subscribed"`
 	BatchType  string `json:"batch_type" binding:"required"`
+}
+
+// hard code for user 1 right now
+func HandleGetUser(c *gin.Context) {
+	ctx := c.Request.Context()
+	user, err := client.Client.GetUser(ctx, 1)
+	if err != nil {
+		c.JSON(500, gin.H{
+			"err": err.Error(),
+		})
+		return
+	}
+	c.JSON(200, user)
 }
 
 func HandleUpdateGeneralConfig(c *gin.Context) {

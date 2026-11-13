@@ -5,6 +5,7 @@ import {countryGeoMap} from "~/utils/utils";
 import type {Deal} from "~/models/Deal";
 import DealList from "~/components/map/DealList";
 import CustomMarker from "~/components/map/CustomMarker";
+import "./leaflet"
 
 type DealMapData = {
     allDeals: Deal[];
@@ -31,7 +32,6 @@ export default function WorldMap({allDeals, setCountry, doneLoading, open, setOp
             allCountries.set(deal.country, true)
         }
     })
-
     return (
         <MapContainer
             style={{height: "100%"}}

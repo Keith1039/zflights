@@ -1,9 +1,9 @@
 export type Deal = {
+    id: number;
     name: string,  // really 'city'
     country: string,
     thumbnail: string,
-    lat: number,
-    lng: number,
+    latlng: number[],
     outbound_date: string,
     return_date: string,
     price: number,

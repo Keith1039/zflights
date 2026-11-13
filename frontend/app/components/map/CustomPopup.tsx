@@ -7,7 +7,9 @@ export default function CustomPopup({deals}: {deals: Deal[]}) {
             <ul className="content-center">
                 {deals.map((deal) => (
                     <li className="w-full font-bold text-center cursor-pointer">
-                        <DestinationCard deal={deal} />
+                        <DestinationCard
+                            deal={deal}
+                        />
                     </li>
                 ))}
             </ul>

@@ -1,9 +1,11 @@
 import type {Deal} from "~/models/Deal";
 import {dateConverter, durationConverter, round} from "~/utils/utils";
 import {Bookmark} from "lucide-react"
+import {useState} from "react";
+import {associateDeal, dissociateDeal} from "~/axios/helpers";
 
-
-export default function ListDestinationCard({ deal }: { deal: Deal }) {
+export default function ListDestinationCard({ deal }: {deal: Deal}) {
+    const [isBookmarked, setIsBookmarked] = useState<Boolean>(false)
     const hasDiscount = deal.discount_percentage !== 0;
     const realDiscount = 1 - deal.discount_percentage / 100;
     const originalPrice = hasDiscount
@@ -48,9 +50,17 @@ export default function ListDestinationCard({ deal }: { deal: Deal }) {
                 <button
                     type="button"
                     aria-label="Bookmark destination"
-                    className="absolute right-4 top-16 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white shadow-lg backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white hover:text-indigo-600"
+                    className="absolute cursor-pointer right-4 top-16 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white shadow-lg backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white hover:text-indigo-600"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        if (isBookmarked) {
+                            dissociateDeal(deal.id, () => setIsBookmarked(false))
+                        } else {
+                            associateDeal(deal.id, () => setIsBookmarked(true))
+                        }
+                    }}
                 >
-                    <Bookmark className="h-5 w-5" />
+                    <Bookmark className="h-5 w-5" fill={isBookmarked ? "black" : "none"}/>
                 </button>
 
                 {/* Destination Information */}

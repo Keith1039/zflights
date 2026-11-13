@@ -4,17 +4,18 @@ import api from "~/axios/api";
 import {lazy, Suspense, useEffect, useState} from "react";
 import {useLoaderData} from "react-router";
 
-const per_page = 5;
+const limit = 10;
 
 export async function clientLoader({}: Route.ClientLoaderArgs): Promise<Deal[]> {
-    const res = await api.get("/deals", {params: {_page: 1, _per_page: per_page}})
-    return res.data.data as Deal[]
+    const res = await api.get("/deals/recommend", {params: {limit: limit, offset: 0}})
+    return res.data as Deal[]
 }
 
 // HydrateFallback is rendered while the client loader is running
 export function HydrateFallback() {
     return <div>Loading...</div>;
 }
+
 
 
 const DealsWorldMap = lazy(() => import("~/components/map/DealsWorldMap"))
@@ -60,29 +61,18 @@ export default function (){
     }, [country])
 
     const fetchGeneralMore = async () => {
-        const currentPage = Math.floor(currentDeals.length / per_page)
-        const res = await api.get("/deals", {params: {_page: currentPage + 1,  _per_page: per_page}});
-        const next = res.data.data as Deal[]
-        if (!res.data.next) {
+        const res = await api.get("/deals/recommend", {params: {limit: limit,  offset: currentDeals.length}});
+        const next = res.data as Deal[]
+        if (next.length == 0) {
             setHasMore(false);
         }
         setAllDeals([...currentDeals, ...next])
         setCurrentDeals((prev) => [...prev, ...next]);
     }
     const fetchSpecificMore = async (country: string) => {
-        const currentPage = Math.floor(currentDeals.length / per_page)
-        const params = {
-            _page: currentPage + 1,
-            _per_page: per_page,
-            country: country,
-        }
-        const res = await api.get("/deals", {params: params});
-        const next = res.data.data as Deal[]
-        if (!res.data.prev && !res.data.next) {
-            setHasMore(false);
-            return
-        }
-        if (!res.data.next) {
+        const res = await api.get("/deals/recommend", {params: {limit: limit,  offset: currentDeals.length, country: country}});
+        const next = res.data as Deal[]
+        if (next.length == 0) {
             setHasMore(false);
         }
         setCurrentDeals((prev) => [...prev, ...next]);
@@ -115,7 +105,8 @@ export default function (){
                         fetchMore={fetchMore}
                         hasMore={hasMore}
                         open={open}
-                        setOpen={setOpen}/>
+                        setOpen={setOpen}
+                    />
                 </div>
             </div>
         </Suspense>
