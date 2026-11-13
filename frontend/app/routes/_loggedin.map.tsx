@@ -24,13 +24,13 @@ const dealsToDealGroups = (deals: Deal[]): [Map<string, Map<string, MarkerLocati
         const group = countryMap.get(deal.country)
         if (!group) {
             const m = new Map<string, MarkerLocation>();
-            m.set(deal.name, {name: deal.name, lat: deal.lat, lng: deal.lng} as MarkerLocation);
+            m.set(deal.name, {name: deal.name, lat: deal.latlng[0], lng: deal.latlng[1]} as MarkerLocation);
             countryMap.set(deal.country, m);
 
         } else {
             const isIn = group.get(deal.name) !== undefined;
             if (!isIn) {
-                group.set(deal.name, {name: deal.name, lat: deal.lat, lng: deal.lng} as MarkerLocation)
+                group.set(deal.name, {name: deal.name, lat: deal.latlng[0], lng: deal.latlng[1]} as MarkerLocation)
             }
         }
 

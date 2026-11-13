@@ -30,21 +30,21 @@ func setupDealRouter() *gin.Engine {
 }
 
 func Test_GET_deals(t *testing.T) {
-	var deals routes.GeoDeals
+	var deals []routes.GeoDeal
 	r := setupDealRouter()
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/deals", nil)
 	r.ServeHTTP(w, req)
-	bytes := w.Body.Bytes()
+	mBytes := w.Body.Bytes()
 	assert.Equal(t, 200, w.Code)
-	err := json.Unmarshal(bytes, &deals)
+	err := json.Unmarshal(mBytes, &deals)
 	if err != nil {
 		t.Fatal("Could not marshal body to GeoDeals struct")
 	}
 }
 
 func Test_GET_deals_recommend(t *testing.T) {
-	var deals routes.GeoDeals
+	var deals []routes.GeoDeal
 	r := setupDealRouter()
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/deals/recommend", nil)
@@ -104,8 +104,8 @@ func Test_GET_deals_recommend(t *testing.T) {
 	if err != nil {
 		t.Fatal("Could not unmarshal body to GeoDeals struct")
 	}
-	if len(deals.Deals) != 1 {
-		t.Fatalf("Expected length of 1, got %d", len(deals.Deals))
+	if len(deals) != 1 {
+		t.Fatalf("Expected length of 1, got %d", len(deals))
 	}
 }
 

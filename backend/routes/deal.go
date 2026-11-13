@@ -44,7 +44,7 @@ func HandleGetDeals(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(200, GeoDeals{Deals: transformDealsToGeoDeals(deals)})
+	c.JSON(200, transformDealsToGeoDeals(deals))
 }
 
 type paginatedReq struct {
@@ -69,7 +69,7 @@ func HandleGetRecommendations(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(200, GeoDeals{Deals: transformDealsToGeoDeals(deals)})
+	c.JSON(200, transformDealsToGeoDeals(deals))
 }
 
 type associateDealStruct struct {
