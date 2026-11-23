@@ -3,7 +3,6 @@ package routes
 import (
 	"fmt"
 	"github.com/Keith1039/foptimize/schema"
-	"github.com/Keith1039/zflights/client"
 	"github.com/Keith1039/zflights/geo"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
@@ -37,7 +36,7 @@ func transformDealsToGeoDeals(deals []schema.Deal) []GeoDeal {
 
 func HandleGetDeals(c *gin.Context) {
 	ctx := c.Request.Context()
-	deals, err := client.Client.GetUserDeals(ctx, id)
+	deals, err := client.GetUserDeals(ctx, id)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"err": err.Error(),
@@ -65,10 +64,10 @@ func HandleGetRecommendations(c *gin.Context) {
 		return
 	}
 	if reqStruct.Country == "" {
-		deals, err = client.Client.GetNonUserDeals(ctx, id, reqStruct.Limit, reqStruct.Offset)
+		deals, err = client.GetNonUserDeals(ctx, id, reqStruct.Limit, reqStruct.Offset)
 	} else {
 		fmt.Println("here for countries!")
-		deals, err = client.Client.GetNonUserDealsForCountry(ctx, id, reqStruct.Limit, reqStruct.Offset, reqStruct.Country)
+		deals, err = client.GetNonUserDealsForCountry(ctx, id, reqStruct.Limit, reqStruct.Offset, reqStruct.Country)
 	}
 	if err != nil {
 		c.JSON(500, gin.H{
@@ -93,7 +92,7 @@ func HandleAssociateDeal(c *gin.Context) {
 		})
 		return
 	}
-	err = client.Client.MapUserAndDeal(ctx, client.Client.GetConn(), id, reqStruct.DealId)
+	err = client.MapUserAndDeal(ctx, client.GetConn(), id, reqStruct.DealId)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"err": err.Error(),
@@ -117,7 +116,7 @@ func HandleDissociateDeal(c *gin.Context) {
 		})
 		return
 	}
-	err = client.Client.RemoveDealAssociation(ctx, id, reqStruct.DealId)
+	err = client.RemoveDealAssociation(ctx, id, reqStruct.DealId)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"err": err.Error(),

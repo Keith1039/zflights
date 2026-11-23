@@ -4,17 +4,26 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"github.com/Keith1039/zflights/client"
+	"github.com/Keith1039/foptimize/db"
 	"github.com/Keith1039/zflights/routes"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
+	"log"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 )
 
+var client db.DatabaseClient
+
 func init() {
 	gin.SetMode(gin.TestMode)
+	var err error
+	client, err = db.NewDatabaseClient(os.Getenv("DB_URL"))
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func setupDealRouter() *gin.Engine {
@@ -113,7 +122,7 @@ func Test_GET_deals_recommend(t *testing.T) {
 	req, _ = http.NewRequest("GET", "/deals/recommend", nil)
 	q = req.URL.Query()
 	q.Add("limit", "1")
-	user, err := client.Client.GetUser(context.Background(), 2)
+	user, err := client.GetUser(context.Background(), 2)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -143,7 +152,7 @@ func Test_POST_deals_adds(t *testing.T) {
 	r.ServeHTTP(w, req)
 	assert.Equal(t, 400, w.Code)
 
-	deals, err := client.Client.GetNonUserDeals(context.Background(), 1, 1, 0)
+	deals, err := client.GetNonUserDeals(context.Background(), 1, 1, 0)
 	if err != nil || len(deals) == 0 {
 		t.Fatal("Could not get deals")
 	}
@@ -168,7 +177,7 @@ func Test_POST_deals_delete(t *testing.T) {
 	r.ServeHTTP(w, req)
 	assert.Equal(t, 400, w.Code)
 
-	deals, err := client.Client.GetUserDeals(context.Background(), 1)
+	deals, err := client.GetUserDeals(context.Background(), 1)
 	if err != nil || len(deals) == 0 {
 		t.Fatal("Could not get deals")
 	}

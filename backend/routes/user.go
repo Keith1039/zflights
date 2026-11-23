@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"github.com/Keith1039/zflights/client"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 )
@@ -20,7 +19,7 @@ type emailConfig struct {
 // hard code for user 1 right now
 func HandleGetUser(c *gin.Context) {
 	ctx := c.Request.Context()
-	user, err := client.Client.GetUser(ctx, 1)
+	user, err := client.GetUser(ctx, 1)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"err": err.Error(),
@@ -41,7 +40,7 @@ func HandleUpdateGeneralConfig(c *gin.Context) {
 		return
 	}
 
-	user, err := client.Client.GetUser(ctx, id)
+	user, err := client.GetUser(ctx, id)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"err": err.Error(),
@@ -51,7 +50,7 @@ func HandleUpdateGeneralConfig(c *gin.Context) {
 	user.Threshold = reqStruct.Threshold
 	user.RelevantAirports = reqStruct.DepartureAirports
 	user.SubscribedCountries = reqStruct.InterestedCountries
-	err = client.Client.UpdateUser(ctx, user)
+	err = client.UpdateUser(ctx, user)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"err": err.Error(),
@@ -71,7 +70,7 @@ func HandleUpdateEmailConfig(c *gin.Context) {
 		})
 		return
 	}
-	user, err := client.Client.GetUser(ctx, id)
+	user, err := client.GetUser(ctx, id)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"err": err.Error(),
@@ -80,7 +79,7 @@ func HandleUpdateEmailConfig(c *gin.Context) {
 	}
 	user.EmailConfig.Subscribed = reqStruct.Subscribed
 	user.EmailConfig.BatchType = reqStruct.BatchType
-	err = client.Client.UpdateUser(ctx, user)
+	err = client.UpdateUser(ctx, user)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"err": err.Error(),
