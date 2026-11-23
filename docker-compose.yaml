@@ -41,8 +41,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    env_file:
-      - ./backend/.env
+    environment:
+      DB_URL: "postgres://postgres:password@pgtestdb:5432/postgres?sslmode=disable"
     ports:
       - "3129:8080"
     depends_on:
