@@ -19,3 +19,5 @@ only one matters.
 Please be sure to check out the interactive maps on the paths `/deals` and `/map`.
 For the purposes of the branch I have disabled auth so you can either go there via a button
 or by changing the url.
+
+*NOTE: As this is a pre-release branch the files, namely the migration files, may not match the end product.*
