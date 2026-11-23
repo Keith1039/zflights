@@ -13,9 +13,6 @@ frontend/.idea
 backend/.idea
 
 
-#migrations dir
-migrations/
-
 #scripts
 update_migrations.sh
 start.sh
