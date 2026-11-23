@@ -1,7 +1,7 @@
 import L from "leaflet";
 import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import {countryGeoMap} from "~/utils/utils";
+import {countryGeoMap} from "~/utils/country";
 import type {Deal} from "~/models/Deal";
 import DealList from "~/components/map/DealList";
 import CustomMarker from "~/components/map/CustomMarker";

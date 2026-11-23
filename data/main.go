@@ -26,7 +26,7 @@ func init() {
 	}
 	defaultUser = schema.User{
 		Email:               "some_email@gmail.com",
-		RelevantAirports:    []string{"YYW", "YOZ"},
+		RelevantAirports:    []string{"YYW", "YOW"},
 		SubscribedCountries: []string{},
 		Config:              schema.Config{},
 		EmailConfig:         schema.EmailConfig{},
@@ -34,7 +34,7 @@ func init() {
 	}
 	otherUser = schema.User{
 		Email:               "some_other_email@gmail.com",
-		RelevantAirports:    []string{"YYW", "YOZ"},
+		RelevantAirports:    []string{"YYW", "YOW"},
 		SubscribedCountries: []string{},
 		Config:              schema.Config{},
 		EmailConfig:         schema.EmailConfig{},

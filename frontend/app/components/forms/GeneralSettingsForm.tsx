@@ -7,6 +7,8 @@ import {convertOptions, convertStrArrToOptions} from "~/utils/utils";
 import api from "~/axios/api"
 import {toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
+import {airportOptions, getAirlineCodesAsOptions} from "~/utils/airport";
+import {countryOptions} from "~/utils/country";
 
 const options: Option[] = [
     { value: "chocolate", label: "Chocolate" },
@@ -113,7 +115,7 @@ export default function GeneralSettingsForm({user, updateUser}: {user: User, upd
         defaultValues: {
             threshold: user.threshold,
             interestedCountries: convertStrArrToOptions(user.subscribed_countries),
-            departureAirports: convertStrArrToOptions(user.relevant_airports),
+            departureAirports: getAirlineCodesAsOptions(user.relevant_airports),
         },
         onSubmit: async ({ value }) => {
             const params = {
@@ -257,7 +259,7 @@ export default function GeneralSettingsForm({user, updateUser}: {user: User, upd
                         <Select<Option, true>
                             inputId="interestedCountries"
                             name="interestedCountries"
-                            options={options}
+                            options={countryOptions}
                             isMulti
                             isClearable
                             closeMenuOnSelect={false}
@@ -314,7 +316,7 @@ export default function GeneralSettingsForm({user, updateUser}: {user: User, upd
                         <Select<Option, true>
                             inputId="departureAirports"
                             name="departureAirports"
-                            options={options}
+                            options={airportOptions}
                             isMulti
                             isClearable
                             closeMenuOnSelect={false}
