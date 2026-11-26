@@ -29,6 +29,25 @@ func HandleGetUser(c *gin.Context) {
 	c.JSON(200, user)
 }
 
+func HandleActivateUser(c *gin.Context) {
+	ctx := c.Request.Context()
+	user, err := client.GetUser(ctx, 1)
+	if err != nil {
+		c.JSON(500, gin.H{
+			"err": err.Error(),
+		})
+		return
+	}
+	user.Activated = true
+	err = client.UpdateUser(ctx, user)
+	if err != nil {
+		c.JSON(500, gin.H{
+			"err": err.Error(),
+		})
+	}
+	c.String(200, "user of id %d successfully activated", user.Id)
+}
+
 func HandleUpdateGeneralConfig(c *gin.Context) {
 	ctx := c.Request.Context()
 	reqStruct := generalConfig{}

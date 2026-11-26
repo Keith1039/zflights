@@ -3,7 +3,7 @@ module github.com/Keith1039/zflights
 go 1.26.10
 
 require (
-	github.com/Keith1039/foptimize v0.7.5
+	github.com/Keith1039/foptimize v0.7.6
 	github.com/gin-contrib/cors v1.7.11
 	github.com/gin-gonic/gin v1.12.0
 	github.com/stretchr/testify v1.11.1

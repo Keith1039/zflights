@@ -32,6 +32,7 @@ func main() {
 	router.POST("/deals/delete", routes.HandleDissociateDeal)
 
 	// user routes
+	router.POST("/user/activate", routes.HandleActivateUser)
 	router.POST("/settings/general/update", routes.HandleUpdateGeneralConfig)
 
 	router.POST("/settings/email/update", routes.HandleUpdateEmailConfig)
