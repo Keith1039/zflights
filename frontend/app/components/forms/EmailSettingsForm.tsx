@@ -1,31 +1,11 @@
 
 import { useForm } from "@tanstack/react-form";
-import type { CustomOption } from "~/models/Option";
+import {BatchEmailOpts, options, type CustomOption, optionMap} from "~/models/Option";
 import Select from "react-select";
 import type {EmailConfig, User} from "~/models/user";
 import api from "~/axios/api"
 import {toast, ToastContainer} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-
-enum BatchEmailOpts {
-    NO_BATCH = "NO_BATCH",
-    WEEKLY = "WEEKLY",
-    MONTHLY = "MONTHLY",
-    QUARTERLY = "QUARTERLY",
-}
-
-const options: CustomOption<BatchEmailOpts>[] = [
-    { value: BatchEmailOpts.NO_BATCH, label: "No batching" },
-    { value: BatchEmailOpts.WEEKLY, label: "Weekly" },
-    { value: BatchEmailOpts.MONTHLY, label: "Monthly" },
-    { value: BatchEmailOpts.QUARTERLY, label: "Quarterly" },
-];
-
-// set it
-const optionMap = new Map<BatchEmailOpts, CustomOption<BatchEmailOpts>>();
-for (const option of options) {
-    optionMap.set(option.value, option)
-}
 
 const selectStyles = {
     control: (base: any, state: any) => ({
